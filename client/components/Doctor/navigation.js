@@ -1,0 +1,23 @@
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {NavigationContainer, useIsFocused} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+import Navigation from '.././Navigation';
+const Tab = createBottomTabNavigator();
+
+function DocNavigation({route, navigation}) {
+  const {user} = route.params;
+  const [pause, setPause] = useState(true);
+
+  return <Navigation isUser={false} user={user} />;
+}
+export default DocNavigation;
