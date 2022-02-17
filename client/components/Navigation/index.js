@@ -1,4 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon, {Icons} from './Icons';
@@ -13,6 +14,7 @@ import DocHome from '../Doctor/home';
 import DocMedicalRecords from '../Doctor/medicalRecords';
 import DocProfile from '../Doctor/profile';
 import DocPatients from '../Doctor/patients';
+import DrawerNavigation from './DrawerNavigation';
 
 const userTabArr = [
   {
@@ -148,41 +150,48 @@ const TabButton = (props) => {
 export default function Navigation({route, navigation, user, isUser}) {
   // const {user} = route.params;
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: styles.tabBar,
-      }}>
-      {isUser
-        ? userTabArr.map((item, index) => {
-            return (
-              <Tab.Screen
-                key={index}
-                name={item.route}
-                component={item.component}
-                initialParams={user}
-                options={{
-                  tabBarShowLabel: false,
-                  tabBarButton: (props) => <TabButton {...props} item={item} />,
-                }}
-              />
-            );
-          })
-        : docTabArr.map((item, index) => {
-            return (
-              <Tab.Screen
-                key={index}
-                name={item.route}
-                component={item.component}
-                initialParams={user}
-                options={{
-                  tabBarShowLabel: false,
-                  tabBarButton: (props) => <TabButton {...props} item={item} />,
-                }}
-              />
-            );
-          })}
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: styles.tabBar,
+        }}>
+        {isUser
+          ? userTabArr.map((item, index) => {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={item.component}
+                  initialParams={user}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton {...props} item={item} />
+                    ),
+                  }}
+                />
+              );
+            })
+          : docTabArr.map((item, index) => {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={item.component}
+                  initialParams={user}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton {...props} item={item} />
+                    ),
+                  }}
+                />
+              );
+            })}
+      </Tab.Navigator>
+      {/* <DrawerNavigation /> */}
+    </>
   );
 }
 

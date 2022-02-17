@@ -11,12 +11,13 @@ import {
 import MyHeader from '../Navigation/myHeader';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Cancel from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Snackbar, ActivityIndicator, Colors} from 'react-native-paper';
+import {Snackbar} from 'react-native-paper';
 import Logout from 'react-native-vector-icons/AntDesign';
 import {Input} from 'react-native-elements';
 //import {getAllUserInfo} from './service';
 import {formatDate} from '../Helpers/dateFormatter';
 import AsyncStorage from '@react-native-community/async-storage';
+import {getAllDocInfo} from './service';
 
 const Profile = ({route, navigation}) => {
   const {doctor, user} = route.params;
@@ -29,15 +30,27 @@ const Profile = ({route, navigation}) => {
     setIsEdit(true);
     setVisible(false);
     setViewProfile({});
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
   };
   const handleClose = (event) => {
     setIsEdit(false);
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
   };
-  //   useEffect(() => {
-  //     if (user && !isEdit) {
-  //       getAllUsers(user);
-  //     }
-  //   }, [isEdit]);
+  useEffect(() => {
+    if (user && !isEdit) {
+      getAllDoc(user);
+    }
+  }, [isEdit]);
+
+  useEffect(() => {
+    console.log(viewProfile);
+  }, [viewProfile]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -51,21 +64,20 @@ const Profile = ({route, navigation}) => {
     return unsubscribe;
   }, [navigation]);
 
-  //   const getAllUsers = async (user) => {
-  //     try {
-  //       const {data} = await getAllUserInfo({user: user});
-  //       debugger;
-  //       if (data) {
-  //         setViewProfile({
-  //           ...data.email[0],
-  //           ...data.userProfile[0],
-  //         });
-  //       }
-  //       debugger;
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  const getAllDoc = async (user) => {
+    try {
+      const {data} = await getAllDocInfo({user: user});
+
+      if (data) {
+        setViewProfile({
+          ...data.docSignupData[0],
+          ...data.docProfile[0],
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleSubmit = async (event) => {
     try {
@@ -92,7 +104,7 @@ const Profile = ({route, navigation}) => {
       <View style={styles.container}>
         <MyHeader
           menu
-          //onPressMenu={() => navigation.navigate('CreateAccountAs')}
+          onPressMenu={() => navigation.openDrawer()}
           title={route.name}
           right="more-vertical"
           onRightPress={() => console.log('right')}
@@ -143,18 +155,28 @@ const Profile = ({route, navigation}) => {
               />
             </>
           )}
-          <Input label="Weight" disabled={!isEdit} value={viewProfile.weight} />
-          <Input label="Height" disabled={!isEdit} value={viewProfile.height} />
-          <Input
-            label="Blood Type"
-            disabled={!isEdit}
-            value={viewProfile.bloodType}
-          />
           <Input
             label="Date of Birth"
             disabled={!isEdit}
             value={formatDate(viewProfile.dateOfBirth)}
           />
+          <Input
+            label="Institution"
+            disabled={!isEdit}
+            value={viewProfile.institution}
+          />
+          <Input
+            label="SLMC No"
+            disabled={!isEdit}
+            value={viewProfile.slmcNo}
+          />
+          <Input label="Clinic" disabled={!isEdit} value={viewProfile.clinic} />
+          <Input
+            label="Contact No"
+            disabled={!isEdit}
+            value={viewProfile.contactNo}
+          />
+          <Input label="NIC" disabled={!isEdit} value={viewProfile.nic} />
           {isEdit && (
             <>
               <Input label="Password" value={viewProfile.password} />

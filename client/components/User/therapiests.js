@@ -10,50 +10,75 @@ import {
   BackHandler,
   FlatList,
   StatusBar,
+  Modal,
 } from 'react-native';
 
-import * as Animatable from 'react-native-animatable';
 import Styles from '../Navigation/styles';
 
 import MyHeader from '../Navigation/myHeader';
-import AsyncStorage from '@react-native-community/async-storage';
+
+import {getAllDocInfo} from './service';
+import DocDetails from './DocModal';
 
 const Therapiests = ({route, navigation}) => {
   const {params} = route;
+  const [visible, setVisible] = useState(false);
+  const [profileInfo, setProfileInfo] = useState([]);
+  const [docData, setDocData] = useState({});
   const SPACING = 20;
   const AVATAR_SIZE = 70;
-  const data = [
-    {
-      name: 'Insomnia Level 3',
-      vehical: 'Now',
-      msg: 'Chandra Bandara',
-      img: require('../../assets/insomnia.jpg'),
-    },
-    {
-      name: 'Channel Doctors',
-      vehical: 'Now',
-      msg: 'Thisari Chamodya',
-      img: require('../../assets/doctors.jpg'),
-    },
-    {
-      name: 'Medical Records',
-      vehical: 'Now',
-      msg: 'Oscar Subramaniyam',
-      img: require('../../assets/medical_records.jpg'),
-    },
-    {
-      name: 'Message',
-      vehical: 'Now',
-      msg: 'Akmaal Meedin',
-      img: require('../../assets/chat.jpg'),
-    },
-    {
-      name: 'Track',
-      vehical: 'Now',
-      msg: 'Randhika Prasad ',
-      img: require('../../assets/track.png'),
-    },
-  ];
+
+  useEffect(() => {
+    getAllDocProfiles();
+  }, []);
+
+  useEffect(() => {
+    console.log(profileInfo);
+  }, [profileInfo]);
+
+  const getAllDocProfiles = async () => {
+    const {data} = await getAllDocInfo();
+    setProfileInfo(data);
+  };
+  const showDoctorDetails = (data) => {
+    setDocData({
+      data,
+    });
+    setVisible(true);
+  };
+
+  // const data = [
+  //   {
+  //     name: 'Insomnia Level 3',
+  //     vehical: 'Now',
+  //     msg: 'Chandra Bandara',
+  //     img: require('../../assets/insomnia.jpg'),
+  //   },
+  //   {
+  //     name: 'Channel Doctors',
+  //     vehical: 'Now',
+  //     msg: 'Thisari Chamodya',
+  //     img: require('../../assets/doctors.jpg'),
+  //   },
+  //   {
+  //     name: 'Medical Records',
+  //     vehical: 'Now',
+  //     msg: 'Oscar Subramaniyam',
+  //     img: require('../../assets/medical_records.jpg'),
+  //   },
+  //   {
+  //     name: 'Message',
+  //     vehical: 'Now',
+  //     msg: 'Akmaal Meedin',
+  //     img: require('../../assets/chat.jpg'),
+  //   },
+  //   {
+  //     name: 'Track',
+  //     vehical: 'Now',
+  //     msg: 'Randhika Prasad ',
+  //     img: require('../../assets/track.png'),
+  //   },
+  // ];
 
   return (
     <View style={Styles.container}>
@@ -65,53 +90,60 @@ const Therapiests = ({route, navigation}) => {
         onRightPress={() => console.log('right')}
         user={true}
       />
+
       <ScrollView style={{backgroundColor: 'white'}}>
         <View style={styles.container}>
-          {/* <Image
-            source={require('../../assets/pixel.jpg')}
-            style={StyleSheet.absoluteFillObject}
-            blurRadius={80}
-          /> */}
-          <View
-            style={{
-              flex: 1,
-              marginTop: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}></View>
+          {docData && (
+            <DocDetails
+              visible={visible}
+              setVisible={setVisible}
+              docData={docData}
+            />
+          )}
+
           <View>
             <FlatList
-              data={data}
+              data={profileInfo}
               keyExtractor={(item) => item.key}
               contentContainerStyle={{
                 padding: SPACING,
               }}
               renderItem={({item, index}) => {
                 return (
-                  <View style={styles.cardBody}>
-                    <Image
-                      source={require('../../assets/doc.png')}
-                      style={{
-                        width: AVATAR_SIZE,
-                        height: AVATAR_SIZE,
-                        borderRadius: AVATAR_SIZE,
-                        marginRight: SPACING / 2,
-                      }}
-                    />
-                    <View>
-                      {/* <Text style={{fontSize: 20, fontWeight: '700'}}>
+                  <TouchableOpacity onPress={() => showDoctorDetails(item)}>
+                    <View style={styles.cardBody}>
+                      <Image
+                        source={require('../../assets/doc.png')}
+                        style={{
+                          width: AVATAR_SIZE,
+                          height: AVATAR_SIZE,
+                          borderRadius: AVATAR_SIZE,
+                          marginRight: SPACING / 2,
+                        }}
+                      />
+                      <View>
+                        {/* <Text style={{fontSize: 20, fontWeight: '700'}}>
                         {item.name}
                       </Text> */}
-                      <Text
-                        style={{fontSize: 18, opacity: 0.7, paddingTop: 15}}>
-                        DR. {item.msg}
-                      </Text>
-                      <Text
-                        style={{fontSize: 15, opacity: 1.8, color: '#0099cc'}}>
-                        Channel Now
-                      </Text>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            opacity: 0.7,
+                            paddingTop: 15,
+                          }}>
+                          DR. {item.firstName} {item.lastName}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            opacity: 1.8,
+                            color: '#0099cc',
+                          }}>
+                          Channel Now
+                        </Text>
+                      </View>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               }}
             />

@@ -33,6 +33,13 @@ const DoctorCreateProfileSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	userLink: [
+		{ type: Schema.Types.ObjectId, ref: "UserProfile", default: null },
+	],
+	isChannel: {
+		type: Boolean,
+		default: false,
+	},
 	createdDate: {
 		type: Date,
 		default: Date.now,

@@ -21,6 +21,8 @@ import DocFirstScreen from './components/Intro/Doc/firstScreen';
 import DocSecondScreen from './components/Intro/Doc/secondScreen';
 import DocLastScreen from './components/Intro/Doc/lastScreen';
 import DocCreateProfile from './components/Doctor/createProfile';
+import DrawerNavigation from './components/Navigation/DrawerNavigation';
+import Profile from './components/Doctor/profile';
 
 const Stack = createStackNavigator();
 

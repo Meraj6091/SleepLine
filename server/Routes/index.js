@@ -148,4 +148,39 @@ router.post("/getUserInfo", async (req, res) => {
 		return res.json(err);
 	}
 });
+
+router.post("/getAllDocInfo", async (req, res) => {
+	try {
+		console.log(req.body);
+		const docProfile = await DoctorProfile.find({}).where({
+			firstName: req.body.user,
+		});
+		console.log(docProfile);
+
+		const docSignupData = await DoctorignUpSchema.find({}).where({
+			firstName: req.body.user,
+		});
+		console.log(docSignupData);
+		return res.json({ docProfile, docSignupData });
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+router.post("/getAllDocPofiles", async (req, res) => {
+	try {
+		console.log(req.body);
+		const docProfile = await DoctorProfile.find({});
+		console.log(docProfile);
+
+		const docSignupData = await DoctorignUpSchema.find({});
+		console.log(docSignupData);
+		return res.json(docProfile);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
 module.exports = router;

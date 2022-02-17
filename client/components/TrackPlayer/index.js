@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Video from 'react-native-video';
@@ -24,7 +25,11 @@ function TrackPlayer() {
               name="music"
               size={22}
               color={'#0779e4'}
-              onPress={() => setPause(!pause)}
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.youtube.com/watch?v=9Q634rbsypE&t=7s',
+                )
+              }
             />
           </View>
         </TouchableOpacity>

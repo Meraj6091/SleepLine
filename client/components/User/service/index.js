@@ -6,6 +6,9 @@ export const createUserProfile = (data) => {
 };
 
 export const getAllUserInfo = (data) => {
-  debugger;
   return axios.post(`${apiEndPoint()}/app/getUserInfo`, data);
+};
+
+export const getAllDocInfo = (data) => {
+  return axios.post(`${apiEndPoint()}/app/getAllDocPofiles`, data);
 };

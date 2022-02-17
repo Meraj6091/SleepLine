@@ -54,14 +54,12 @@ const Profile = ({route, navigation}) => {
   const getAllUsers = async (user) => {
     try {
       const {data} = await getAllUserInfo({user: user});
-      debugger;
       if (data) {
         setViewProfile({
           ...data.email[0],
           ...data.userProfile[0],
         });
       }
-      debugger;
     } catch (err) {
       console.log(err);
     }
