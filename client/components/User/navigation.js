@@ -17,6 +17,6 @@ const Tab = createBottomTabNavigator();
 function UserNavigation({route, navigation}) {
   const {user} = route.params;
 
-  return <Navigation isUser={true} user={user} />;
+  return <Navigation isUser={true} user={user} navigation={navigation} />;
 }
 export default UserNavigation;

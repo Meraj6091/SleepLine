@@ -147,8 +147,10 @@ const TabButton = (props) => {
   );
 };
 
-export default function Navigation({route, navigation, user, isUser}) {
-  // const {user} = route.params;
+export default function Navigation({route, user, isUser, navigation}) {
+  let data = user;
+  data.navigation = navigation;
+
   return (
     <>
       <Tab.Navigator
@@ -163,7 +165,7 @@ export default function Navigation({route, navigation, user, isUser}) {
                   key={index}
                   name={item.route}
                   component={item.component}
-                  initialParams={user}
+                  initialParams={data}
                   options={{
                     tabBarShowLabel: false,
                     tabBarButton: (props) => (

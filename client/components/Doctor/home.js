@@ -18,6 +18,7 @@ import Styles from '../Navigation/styles';
 
 import MyHeader from '../Navigation/myHeader';
 import AsyncStorage from '@react-native-community/async-storage';
+import DocHomeGraphs from '../Graphs/docHomeGraph';
 
 const Home = ({route, navigation}) => {
   const {params} = route;
@@ -79,48 +80,11 @@ const Home = ({route, navigation}) => {
               justifyContent: 'center',
             }}>
             <Text style={styles.textTitleChoose}>
-              Hi {params.user},{'\n'}your patienst are waiting for You, {'\n'}
+              Welcome Dr. {params.user},{'\n'}your patienst are waiting for You,{' '}
+              {'\n'}
             </Text>
 
-            <Text style={{opacity: 0.8, fontSize: 13, fontWeight: '600'}}>
-              Confirmed Insomnia Cases (Yearly)
-            </Text>
-            <LineChart
-              data={{
-                labels: ['2000', '2005', '2010', '2015', '2020', '2022'],
-                datasets: [
-                  {
-                    data: [10, 20, 22, 53, 50, 55],
-                  },
-                ],
-              }}
-              width={370} // from react-native
-              height={220}
-              yAxisLabel=""
-              yAxisSuffix="k"
-              yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                backgroundColor: '#40E0D0',
-                backgroundGradientFrom: '#40E0D0',
-                backgroundGradientTo: '#ffa726',
-                decimalPlaces: 1, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-                propsForDots: {
-                  r: '6',
-                  strokeWidth: '2',
-                  stroke: '#ffa726',
-                },
-              }}
-              bezier
-              style={{
-                marginVertical: 15,
-                borderRadius: 16,
-              }}
-            />
+            <DocHomeGraphs />
           </View>
           <View>
             <FlatList
