@@ -18,9 +18,13 @@ import {Input} from 'react-native-elements';
 import {formatDate} from '../../Helpers/dateFormatter';
 import Cancel from 'react-native-vector-icons/AntDesign';
 
-const DocDetails = ({visible, setVisible, docData}) => {
+const DocDetails = ({visible, setVisible, docData, params}) => {
   const {data} = docData;
+  const {navigation} = params;
 
+  const handleChannel = () => {
+    navigation.navigate('PaymentProcess', {data: params, docId: data._id});
+  };
   return (
     <Modal visible={visible} animationType="slide">
       <ScrollView style={{backgroundColor: 'white'}}>
@@ -45,7 +49,8 @@ const DocDetails = ({visible, setVisible, docData}) => {
 
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
-              style={[styles.submit, {backgroundColor: '#27c1c8'}]}>
+              style={[styles.submit, {backgroundColor: '#27c1c8'}]}
+              onPress={handleChannel}>
               <Text style={styles.submitText}>
                 <Icon name="calendar-check" size={22} /> &nbsp; Channel
               </Text>

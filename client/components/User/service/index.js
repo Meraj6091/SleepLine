@@ -12,3 +12,7 @@ export const getAllUserInfo = (data) => {
 export const getAllDocInfo = (data) => {
   return axios.post(`${apiEndPoint()}/app/getAllDocPofiles`, data);
 };
+
+export const isChanneled = (data) => {
+  return axios.get(`${apiEndPoint()}/app/isChanneled`, data);
+};

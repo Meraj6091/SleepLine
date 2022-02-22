@@ -36,10 +36,12 @@ const Login = ({route, navigation}) => {
     postdata.doctor = doctor;
 
     const {data} = await logedIn(postdata);
+
     if (data) {
       let userObj = {
         user: data.firstName,
         email: data.email,
+        id: data._id,
         doctor: doctor,
       };
 

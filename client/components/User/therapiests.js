@@ -17,20 +17,34 @@ import Styles from '../Navigation/styles';
 
 import MyHeader from '../Navigation/myHeader';
 
-import {getAllDocInfo} from './service';
+import {getAllDocInfo, isChanneled} from './service';
 import DocDetails from './DocModal';
 
 const Therapiests = ({route, navigation}) => {
   const {params} = route;
+
   const [visible, setVisible] = useState(false);
+  const [channeled, setChanneled] = useState(false);
   const [profileInfo, setProfileInfo] = useState([]);
   const [docData, setDocData] = useState({});
   const SPACING = 20;
   const AVATAR_SIZE = 70;
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setVisible(false);
+      setChanneled(false);
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     getAllDocProfiles();
   }, []);
+
+  useEffect(() => {
+    checkIsChanneled();
+  }, [channeled]);
 
   useEffect(() => {
     console.log(profileInfo);
@@ -40,45 +54,17 @@ const Therapiests = ({route, navigation}) => {
     const {data} = await getAllDocInfo();
     setProfileInfo(data);
   };
+
+  const checkIsChanneled = async () => {
+    const {data} = await isChanneled();
+  };
+
   const showDoctorDetails = (data) => {
     setDocData({
       data,
     });
     setVisible(true);
   };
-
-  // const data = [
-  //   {
-  //     name: 'Insomnia Level 3',
-  //     vehical: 'Now',
-  //     msg: 'Chandra Bandara',
-  //     img: require('../../assets/insomnia.jpg'),
-  //   },
-  //   {
-  //     name: 'Channel Doctors',
-  //     vehical: 'Now',
-  //     msg: 'Thisari Chamodya',
-  //     img: require('../../assets/doctors.jpg'),
-  //   },
-  //   {
-  //     name: 'Medical Records',
-  //     vehical: 'Now',
-  //     msg: 'Oscar Subramaniyam',
-  //     img: require('../../assets/medical_records.jpg'),
-  //   },
-  //   {
-  //     name: 'Message',
-  //     vehical: 'Now',
-  //     msg: 'Akmaal Meedin',
-  //     img: require('../../assets/chat.jpg'),
-  //   },
-  //   {
-  //     name: 'Track',
-  //     vehical: 'Now',
-  //     msg: 'Randhika Prasad ',
-  //     img: require('../../assets/track.png'),
-  //   },
-  // ];
 
   return (
     <View style={Styles.container}>
@@ -98,6 +84,7 @@ const Therapiests = ({route, navigation}) => {
               visible={visible}
               setVisible={setVisible}
               docData={docData}
+              params={params}
             />
           )}
 

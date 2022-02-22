@@ -23,6 +23,8 @@ import DocLastScreen from './components/Intro/Doc/lastScreen';
 import DocCreateProfile from './components/Doctor/createProfile';
 import DrawerNavigation from './components/Navigation/DrawerNavigation';
 import Profile from './components/Doctor/profile';
+import PaymentProcess from './components/User/PaymentProcess';
+import DocDetails from './components/User/DocModal';
 
 const Stack = createStackNavigator();
 
@@ -99,6 +101,16 @@ export default function Navigation() {
         <Stack.Screen
           name="DocCreateProfile"
           component={DocCreateProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PaymentProcess"
+          component={PaymentProcess}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DocDetails"
+          component={DocDetails}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
