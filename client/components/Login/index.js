@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -14,6 +14,8 @@ import {Input} from 'react-native-elements';
 import Account from './Containers/Account';
 import {logedIn} from './service';
 import {Snackbar, ActivityIndicator, Colors} from 'react-native-paper';
+import {useSelector, useDispatch} from 'react-redux';
+import {saveData, getData} from '../../Containers/State/action';
 
 const Login = ({route, navigation}) => {
   const {doctor, user} = route.params;
@@ -29,6 +31,7 @@ const Login = ({route, navigation}) => {
       [id]: event.trim(),
     });
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLogged(true);

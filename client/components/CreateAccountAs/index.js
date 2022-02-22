@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 
 import {
   View,
@@ -10,16 +10,27 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {actionCreators} from '../../Containers/State';
+import {saveData, getData} from '../../Containers/State/action';
 const CreateAccountAs = ({route, navigation}) => {
+  const state = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+
   useLayoutEffect(() => {
     getDataFormLocal();
   }, []);
-
+  useEffect(() => {
+    console.log(state);
+    debugger;
+  }, [state]);
   const getDataFormLocal = async () => {
     let data = await AsyncStorage.getItem('User');
     let newUser = await AsyncStorage.getItem('newUser');
     let obj = JSON.parse(data);
     if (obj) {
+      dispatch(saveData({name: 'meraj'}));
       if (obj.doctor) {
         navigation.navigate('DocNavigation', {
           user: obj,

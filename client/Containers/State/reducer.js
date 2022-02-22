@@ -1,7 +1,8 @@
-const reducer = (state = null, action) => {
+let initialState = {};
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'saveAllUserData':
-      return state + action.payload;
+      return (state = action.payload);
     case 'getAllUserData':
       return state;
     default:
