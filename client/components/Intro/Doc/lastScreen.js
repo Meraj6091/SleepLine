@@ -19,7 +19,7 @@ function LastScreen({route, navigation}) {
         <Text style={styles.textTitle}>SLEEPLINE</Text>
         <View>
           <Image
-            source={require('../../../assets/menu.gif')}
+            source={require('../../../assets/docGif.gif')}
             resizeMode="cover"
             style={styles.image}
           />

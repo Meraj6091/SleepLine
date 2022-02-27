@@ -14,5 +14,9 @@ export const getAllDocInfo = (data) => {
 };
 
 export const isChanneled = (data) => {
-  return axios.get(`${apiEndPoint()}/app/isChanneled`, data);
+  return axios.post(`${apiEndPoint()}/app/isChanneled`, data);
+};
+
+export const getUserMedicalRecord = (data) => {
+  return axios.post(`${apiEndPoint()}/app/getUserMedicalRecord`, data);
 };

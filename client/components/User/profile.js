@@ -17,6 +17,7 @@ import {Input} from 'react-native-elements';
 import {getAllUserInfo} from './service';
 import {formatDate} from '../Helpers/dateFormatter';
 import AsyncStorage from '@react-native-community/async-storage';
+import {useSelector} from 'react-redux';
 
 const Profile = ({route, navigation}) => {
   const {doctor, user} = route.params;
@@ -24,6 +25,7 @@ const Profile = ({route, navigation}) => {
   const [viewProfile, setViewProfile] = useState({});
   const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const state = useSelector((state) => state.userData);
 
   const handleEdit = (event) => {
     setIsEdit(true);
@@ -35,9 +37,9 @@ const Profile = ({route, navigation}) => {
   };
   useEffect(() => {
     if (user && !isEdit) {
-      getAllUsers(user);
+      getAllUsers();
     }
-  }, [isEdit]);
+  }, [isEdit, state]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -51,18 +53,10 @@ const Profile = ({route, navigation}) => {
     return unsubscribe;
   }, [navigation]);
 
-  const getAllUsers = async (user) => {
-    try {
-      const {data} = await getAllUserInfo({user: user});
-      if (data) {
-        setViewProfile({
-          ...data.email[0],
-          ...data.userProfile[0],
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  const getAllUsers = () => {
+    setViewProfile({
+      ...state,
+    });
   };
 
   const handleSubmit = async (event) => {
