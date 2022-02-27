@@ -53,7 +53,7 @@ const SignUp = ({route, navigation}) => {
   const handleChange = (event, id) => {
     setSignUpData({
       ...signUpData,
-      [id]: event,
+      [id]: event.trim(),
     });
   };
   const handleSubmit = async (event) => {

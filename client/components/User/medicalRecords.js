@@ -10,15 +10,11 @@ import {
   FlatList,
 } from 'react-native';
 
-import Add from 'react-native-vector-icons/AntDesign';
-import AddRecords from './AddMedicalRecords/addMedicalRecordsModal';
-import Chat from 'react-native-vector-icons/Entypo';
-import Medical from 'react-native-vector-icons/FontAwesome5';
 import {useSelector} from 'react-redux';
-import {getAllDoctorMedicalRecords, getUserMedicalRecords} from './service';
-const MedicalRecords = ({route, navigation}) => {
-  const state = useSelector((state) => state.userData);
+import {getUserMedicalRecord} from './service';
+import UserMedicalRecord from './MedicalRecordsModal';
 
+const MedicalRecords = ({route, navigation}) => {
   const SPACING = 20;
   const AVATAR_SIZE = 70;
   const [initialData, setInitialData] = useState({});
@@ -27,10 +23,10 @@ const MedicalRecords = ({route, navigation}) => {
   const [userMedialRecods, setUserMedialRecods] = useState([]);
   const [selectedUserRecod, setSelectedUserRecord] = useState({});
   const [refresh, setRefresh] = useState(false);
-
+  const state = useSelector((state) => state.userData);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getAllMedicalRecords();
+      setRefresh(!refresh);
     });
     return unsubscribe;
   }, [navigation]);
@@ -38,13 +34,13 @@ const MedicalRecords = ({route, navigation}) => {
   useEffect(() => {
     if (state._id) {
       setInitialData({
-        docId: state._id,
+        userId: state._id,
       });
     }
   }, [state]);
 
   useEffect(() => {
-    if (initialData.docId) {
+    if (initialData.userId) {
       getAllMedicalRecords();
     }
   }, [initialData, refresh]);
@@ -59,7 +55,7 @@ const MedicalRecords = ({route, navigation}) => {
       let postdata = initialData;
 
       console.log(postdata);
-      const {data} = await getAllDoctorMedicalRecords(postdata);
+      const {data} = await getUserMedicalRecord(postdata);
       if (data) {
         setUserMedialRecods(data);
       }
@@ -71,12 +67,9 @@ const MedicalRecords = ({route, navigation}) => {
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>
         {userMedialRecods && (
-          <AddRecords
+          <UserMedicalRecord
             visible={visible}
             setVisible={setVisible}
-            docId={state._id}
-            onEdit={onEdit}
-            setOnEdit={setOnEdit}
             selectedUserRecod={selectedUserRecod}
             refresh={refresh}
             setRefresh={setRefresh}

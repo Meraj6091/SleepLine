@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const DoctorCreateProfileSchema = new mongoose.Schema({
 	firstName: {
@@ -33,7 +34,7 @@ const DoctorCreateProfileSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	userLink: [
+	channeledUsers: [
 		{ type: Schema.Types.ObjectId, ref: "UserProfile", default: null },
 	],
 	isChannel: {

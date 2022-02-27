@@ -25,6 +25,9 @@ import DrawerNavigation from './components/Navigation/DrawerNavigation';
 import Profile from './components/Doctor/profile';
 import PaymentProcess from './components/User/PaymentProcess';
 import DocDetails from './components/User/DocModal';
+import UserChat from './components/User/Chat';
+import AddMedicalRecords from './components/Doctor/AddMedicalRecords/Index';
+import DocChat from './components/Doctor/Chat';
 
 const Stack = createStackNavigator();
 
@@ -111,6 +114,21 @@ export default function Navigation() {
         <Stack.Screen
           name="DocDetails"
           component={DocDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UserChat"
+          component={UserChat}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DocChat"
+          component={DocChat}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddMedicalRecords"
+          component={AddMedicalRecords}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

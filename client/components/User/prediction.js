@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import MyHeader from '../Navigation/myHeader';
-const Prediction = () => {
+const Prediction = ({route}) => {
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>

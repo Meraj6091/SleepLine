@@ -14,14 +14,24 @@ import {
 
 import * as Animatable from 'react-native-animatable';
 import Styles from '../Navigation/styles';
-
+import {useDispatch} from 'react-redux';
 import MyHeader from '../Navigation/myHeader';
 import AsyncStorage from '@react-native-community/async-storage';
+import {getAllUserInfo} from './service';
+import {saveData} from '../../Containers/State/action';
 
 const Home = ({route, navigation}) => {
   const {params} = route;
+
+  const dispatch = useDispatch();
+
   const SPACING = 20;
   const AVATAR_SIZE = 70;
+
+  useEffect(() => {
+    handleDispatch();
+  }, []);
+
   const data = [
     {
       name: 'Insomnia Level 3',
@@ -55,6 +65,22 @@ const Home = ({route, navigation}) => {
     },
   ];
 
+  const handleDispatch = async () => {
+    try {
+      const {data} = await getAllUserInfo({user: params.user});
+
+      if (data) {
+        dispatch(
+          saveData({
+            ...data.email[0],
+            ...data.userProfile[0],
+          }),
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <View style={Styles.container}>
       <MyHeader

@@ -15,6 +15,8 @@ import DocMedicalRecords from '../Doctor/medicalRecords';
 import DocProfile from '../Doctor/profile';
 import DocPatients from '../Doctor/patients';
 import DrawerNavigation from './DrawerNavigation';
+import Prediction from '../User/prediction';
+import MedicalRecords from '../User/medicalRecords';
 
 const userTabArr = [
   {
@@ -29,14 +31,14 @@ const userTabArr = [
     label: 'Prediction',
     type: Icons.FontAwesome5,
     icon: 'hand-holding-heart',
-    component: ColorScreen,
+    component: Prediction,
   },
   {
     route: 'Medical Records',
     label: 'Medical Records',
     type: Icons.FontAwesome5,
     icon: 'file-medical',
-    component: ColorScreen,
+    component: MedicalRecords,
   },
   {
     route: 'Therapists ',
@@ -181,7 +183,7 @@ export default function Navigation({route, user, isUser, navigation}) {
                   key={index}
                   name={item.route}
                   component={item.component}
-                  initialParams={user}
+                  initialParams={data}
                   options={{
                     tabBarShowLabel: false,
                     tabBarButton: (props) => (

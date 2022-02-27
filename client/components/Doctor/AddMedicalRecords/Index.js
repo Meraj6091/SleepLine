@@ -9,14 +9,17 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
-
+import MyHeader from '../../Navigation/myHeader';
 import Add from 'react-native-vector-icons/AntDesign';
-import AddRecords from './AddMedicalRecords/addMedicalRecordsModal';
+import AddRecords from './addMedicalRecordsModal';
 import Chat from 'react-native-vector-icons/Entypo';
 import Medical from 'react-native-vector-icons/FontAwesome5';
 import {useSelector} from 'react-redux';
-import {getAllDoctorMedicalRecords, getUserMedicalRecords} from './service';
-const MedicalRecords = ({route, navigation}) => {
+import {getUserMedicalRecords} from './service';
+const AddMedicalRecords = ({route, navigation}) => {
+  const {params} = route;
+  const {userData} = params;
+  const {data} = userData;
   const state = useSelector((state) => state.userData);
 
   const SPACING = 20;
@@ -29,37 +32,35 @@ const MedicalRecords = ({route, navigation}) => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getAllMedicalRecords();
-    });
-    return unsubscribe;
-  }, [navigation]);
-
-  useEffect(() => {
-    if (state._id) {
+    if (data._id && state._id) {
       setInitialData({
+        userId: data._id,
         docId: state._id,
       });
     }
-  }, [state]);
+  }, [data, state]);
 
   useEffect(() => {
-    if (initialData.docId) {
-      getAllMedicalRecords();
+    if (initialData.userId && initialData.docId) {
+      getAllUserMedicalRecords();
     }
   }, [initialData, refresh]);
 
+  const handleAddMedicalRecords = () => {
+    setOnEdit(false);
+    setVisible(true);
+  };
   const showMedicalRecordDetails = (data) => {
     setSelectedUserRecord({...data});
     setOnEdit(true);
     setVisible(true);
   };
-  const getAllMedicalRecords = async () => {
+  const getAllUserMedicalRecords = async () => {
     try {
       let postdata = initialData;
 
       console.log(postdata);
-      const {data} = await getAllDoctorMedicalRecords(postdata);
+      const {data} = await getUserMedicalRecords(postdata);
       if (data) {
         setUserMedialRecods(data);
       }
@@ -70,10 +71,11 @@ const MedicalRecords = ({route, navigation}) => {
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>
-        {userMedialRecods && (
+        {userData && (
           <AddRecords
             visible={visible}
             setVisible={setVisible}
+            userData={data}
             docId={state._id}
             onEdit={onEdit}
             setOnEdit={setOnEdit}
@@ -82,6 +84,19 @@ const MedicalRecords = ({route, navigation}) => {
             setRefresh={setRefresh}
           />
         )}
+        <View
+          style={{
+            alignSelf: 'flex-end',
+            marginRight: 10,
+            marginTop: 10,
+          }}>
+          <Add
+            name="addfile"
+            color="#b92b27"
+            size={25}
+            onPress={handleAddMedicalRecords}
+          />
+        </View>
 
         <View>
           <FlatList
@@ -96,7 +111,7 @@ const MedicalRecords = ({route, navigation}) => {
                   onPress={() => showMedicalRecordDetails(item)}>
                   <View style={styles.cardBody}>
                     <Image
-                      source={require('../../assets/medical_records.jpg')}
+                      source={require('../../../assets/medical_records.jpg')}
                       style={{
                         width: AVATAR_SIZE,
                         height: AVATAR_SIZE,
@@ -219,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MedicalRecords;
+export default AddMedicalRecords;

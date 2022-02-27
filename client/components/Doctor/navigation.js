@@ -17,6 +17,6 @@ const Tab = createBottomTabNavigator();
 function DocNavigation({route, navigation}) {
   const {user} = route.params;
 
-  return <Navigation isUser={false} user={user} />;
+  return <Navigation isUser={false} user={user} navigation={navigation} />;
 }
 export default DocNavigation;

@@ -1,6 +1,7 @@
 const express = require("express");
 const DoctorProfile = require("../Models/doctorProfile");
 const DoctorignUpSchema = require("../Models/doctorSignUpModel");
+const medicalRecords = require("../Models/medicalRecords");
 const UserProfile = require("../Models/userProfile");
 const router = express.Router();
 const UsersignUpSchema = require("../Models/userSignUpModel");
@@ -152,9 +153,10 @@ router.post("/getUserInfo", async (req, res) => {
 router.post("/getAllDocInfo", async (req, res) => {
 	try {
 		console.log(req.body);
-		const docProfile = await DoctorProfile.find({}).where({
+		const docProfile = await DoctorProfile.findOne({
 			firstName: req.body.user,
-		});
+		}).populate("channeledUsers");
+
 		console.log(docProfile);
 
 		const docSignupData = await DoctorignUpSchema.find({}).where({
@@ -177,6 +179,130 @@ router.post("/getAllDocPofiles", async (req, res) => {
 		const docSignupData = await DoctorignUpSchema.find({});
 		console.log(docSignupData);
 		return res.json(docProfile);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+//channel doctor
+router.post("/docChannel", async (req, res) => {
+	try {
+		console.log(req.body);
+		const channled = await DoctorProfile.findOneAndUpdate(
+			{ _id: req.body.docId },
+			{ $push: { channeledUsers: req.body._id } }
+		);
+		console.log(channled);
+		return res.json(channled);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+router.post("/isChanneled", async (req, res) => {
+	try {
+		console.log(req.body);
+		const isChanneled = await DoctorProfile.find({
+			channeledUsers: { $in: [req.body.userId] },
+		});
+		console.log(isChanneled);
+		return res.json(isChanneled);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+//medical records
+router.post("/crateMedicalRecords", async (req, res) => {
+	try {
+		console.log(req.body);
+		const crateMedicalRecords = await new medicalRecords(req.body);
+		crateMedicalRecords.save().then((data) => {
+			console.log(crateMedicalRecords);
+			return res.json(crateMedicalRecords);
+		});
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+//get user medical Records
+router.post("/getUserMedicalRecords", async (req, res) => {
+	try {
+		console.log(req.body);
+		const getMedicalRecords = await medicalRecords.find({
+			docId: req.body.docId,
+			userId: req.body.userId,
+		});
+		console.log(getMedicalRecords);
+
+		return res.json(getMedicalRecords);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+//update medical record
+
+router.post("/updateMedicalRecord", async (req, res) => {
+	try {
+		console.log(req.body);
+		const updateMedicalRecord = await medicalRecords
+			.updateOne(req.body)
+			.where({ _id: req.body.id });
+		console.log(updateMedicalRecord);
+
+		return res.json(updateMedicalRecord);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+router.post("/deleMedicalRecord", async (req, res) => {
+	try {
+		console.log(req.body);
+		const deleMedicalRecord = await medicalRecords.deleteOne({
+			_id: req.body.id,
+		});
+
+		console.log(deleMedicalRecord);
+
+		return res.json(deleMedicalRecord);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+router.post("/getAllDoctorMedicalRecords", async (req, res) => {
+	try {
+		console.log(req.body);
+		const getMedicalRecords = await medicalRecords.find({
+			docId: req.body.docId,
+		});
+		console.log(getMedicalRecords);
+
+		return res.json(getMedicalRecords);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+router.post("/getUserMedicalRecord", async (req, res) => {
+	try {
+		console.log(req.body);
+		const getMedicalRecords = await medicalRecords.find({
+			userId: req.body.userId,
+		});
+		console.log(getMedicalRecords);
+
+		return res.json(getMedicalRecords);
 	} catch (err) {
 		console.log(err);
 		return res.json(err);

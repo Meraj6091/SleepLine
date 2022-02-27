@@ -19,12 +19,14 @@ import MyHeader from '../Navigation/myHeader';
 
 import {getAllDocInfo, isChanneled} from './service';
 import DocDetails from './DocModal';
+import {useSelector} from 'react-redux';
 
 const Therapiests = ({route, navigation}) => {
   const {params} = route;
-
+  const state = useSelector((state) => state.userData);
   const [visible, setVisible] = useState(false);
-  const [channeled, setChanneled] = useState(false);
+  const [channeled, setChanneled] = useState([]);
+  const [IsChanneled, setIsChanneled] = useState(true);
   const [profileInfo, setProfileInfo] = useState([]);
   const [docData, setDocData] = useState({});
   const SPACING = 20;
@@ -33,7 +35,8 @@ const Therapiests = ({route, navigation}) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setVisible(false);
-      setChanneled(false);
+      // setIsChanneled(!IsChanneled);
+      checkIsChanneled();
     });
     return unsubscribe;
   }, [navigation]);
@@ -43,8 +46,12 @@ const Therapiests = ({route, navigation}) => {
   }, []);
 
   useEffect(() => {
-    checkIsChanneled();
+    console.log(channeled);
   }, [channeled]);
+
+  // useEffect(() => {
+  //   checkIsChanneled();
+  // }, [state]);
 
   useEffect(() => {
     console.log(profileInfo);
@@ -56,14 +63,19 @@ const Therapiests = ({route, navigation}) => {
   };
 
   const checkIsChanneled = async () => {
-    const {data} = await isChanneled();
+    const {data} = await isChanneled({userId: state._id});
+    setChanneled(data.map((data) => data._id));
   };
 
   const showDoctorDetails = (data) => {
-    setDocData({
-      data,
-    });
-    setVisible(true);
+    if (channeled.some((id) => id === data._id)) {
+      navigation.navigate('UserChat');
+    } else {
+      setDocData({
+        data,
+      });
+      setVisible(true);
+    }
   };
 
   return (
@@ -126,7 +138,9 @@ const Therapiests = ({route, navigation}) => {
                             opacity: 1.8,
                             color: '#0099cc',
                           }}>
-                          Channel Now
+                          {channeled.some((data) => data === item._id)
+                            ? 'Chat Now'
+                            : 'Channel Now'}
                         </Text>
                       </View>
                     </View>

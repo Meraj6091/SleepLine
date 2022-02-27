@@ -8,3 +8,7 @@ export const createDocProfile = (data) => {
 export const getAllDocInfo = (data) => {
   return axios.post(`${apiEndPoint()}/app/getAllDocInfo`, data);
 };
+
+export const getAllDoctorMedicalRecords = (data) => {
+  return axios.post(`${apiEndPoint()}/app/getAllDoctorMedicalRecords`, data);
+};

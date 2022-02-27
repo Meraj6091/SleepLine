@@ -12,43 +12,14 @@ import {
   StatusBar,
   Modal,
 } from 'react-native';
-import {useSelector} from 'react-redux';
-import {docChannel} from './service';
 
-const PaymentProcess = ({route, navigation}) => {
+const DocChat = ({route, navigation}) => {
   const {params} = route;
   //check double destructing
-  const state = useSelector((state) => state.userData);
-  const {data} = params;
-  let user = data?.user;
-  const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    if (user) {
-      getAllUsers();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
-  const getAllUsers = () => {
-    setUserData({
-      ...state,
-      docId: params.docId, //setting the specific doc id
-    });
-  };
-
-  const handleChannel = async () => {
-    const {data} = await docChannel(userData);
-    if (data) {
-      navigation.goBack();
-    }
-  };
   return (
     <View style={styles.container}>
-      <Text onPress={handleChannel}>Pay now</Text>
+      <Text>Doc Chat Screen</Text>
     </View>
   );
 };
@@ -105,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PaymentProcess;
+export default DocChat;

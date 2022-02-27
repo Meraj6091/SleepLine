@@ -19,11 +19,31 @@ import Styles from '../Navigation/styles';
 import MyHeader from '../Navigation/myHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import DocHomeGraphs from '../Graphs/docHomeGraph';
+import {useSelector, useDispatch} from 'react-redux';
+import {saveData} from '../../Containers/State/action';
+import {getAllDocInfo} from './service';
 
 const Home = ({route, navigation}) => {
   const {params} = route;
   const SPACING = 20;
   const AVATAR_SIZE = 70;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleDispatch();
+  }, []);
+
+  const handleDispatch = async () => {
+    try {
+      const {data} = await getAllDocInfo({user: params.user});
+      if (data) {
+        dispatch(saveData({...data.docSignupData[0], ...data.docProfile}));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const data = [
     {
       name: 'Patients Profile',
@@ -44,6 +64,7 @@ const Home = ({route, navigation}) => {
       img: require('../../assets/chatPatients.jpg'),
     },
   ];
+
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
     backgroundGradientFromOpacity: 0,

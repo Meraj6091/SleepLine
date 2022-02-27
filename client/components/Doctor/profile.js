@@ -17,7 +17,7 @@ import {Input} from 'react-native-elements';
 //import {getAllUserInfo} from './service';
 import {formatDate} from '../Helpers/dateFormatter';
 import AsyncStorage from '@react-native-community/async-storage';
-import {getAllDocInfo} from './service';
+import {useSelector} from 'react-redux';
 
 const Profile = ({route, navigation}) => {
   const {doctor, user} = route.params;
@@ -25,6 +25,30 @@ const Profile = ({route, navigation}) => {
   const [viewProfile, setViewProfile] = useState({});
   const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const state = useSelector((state) => state.userData);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsEdit(false);
+      setVisible(false);
+      scrollRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    console.log(viewProfile);
+    console.log(state);
+  }, [state, viewProfile]);
+
+  useEffect(() => {
+    if (user && !isEdit) {
+      getAllDoc();
+    }
+  }, [isEdit, state]);
 
   const handleEdit = (event) => {
     setIsEdit(true);
@@ -42,41 +66,10 @@ const Profile = ({route, navigation}) => {
       animated: true,
     });
   };
-  useEffect(() => {
-    if (user && !isEdit) {
-      getAllDoc(user);
-    }
-  }, [isEdit]);
-
-  useEffect(() => {
-    console.log(viewProfile);
-  }, [viewProfile]);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setIsEdit(false);
-      setVisible(false);
-      scrollRef.current?.scrollTo({
-        y: 0,
-        animated: true,
-      });
+  const getAllDoc = () => {
+    setViewProfile({
+      ...state,
     });
-    return unsubscribe;
-  }, [navigation]);
-
-  const getAllDoc = async (user) => {
-    try {
-      const {data} = await getAllDocInfo({user: user});
-
-      if (data) {
-        setViewProfile({
-          ...data.docSignupData[0],
-          ...data.docProfile[0],
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const handleSubmit = async (event) => {
