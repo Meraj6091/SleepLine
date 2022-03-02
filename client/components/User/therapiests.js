@@ -69,7 +69,7 @@ const Therapiests = ({route, navigation}) => {
 
   const showDoctorDetails = (data) => {
     if (channeled.some((id) => id === data._id)) {
-      navigation.navigate('UserChat');
+      navigation.navigate('UserChat', {docId: data._id});
     } else {
       setDocData({
         data,
@@ -81,8 +81,7 @@ const Therapiests = ({route, navigation}) => {
   return (
     <View style={Styles.container}>
       <MyHeader
-        menu
-        //onPressMenu={() => navigation.navigate('CreateAccountAs')}
+        onPressMenu={() => navigation.goBack()}
         title={route.name}
         right="more-vertical"
         onRightPress={() => console.log('right')}

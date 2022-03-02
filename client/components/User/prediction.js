@@ -9,13 +9,12 @@ import {
   Alert,
 } from 'react-native';
 import MyHeader from '../Navigation/myHeader';
-const Prediction = ({route}) => {
+const Prediction = ({route, navigation}) => {
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>
         <MyHeader
-          menu
-          //onPressMenu={() => navigation.navigate('CreateAccountAs')}
+          onPressMenu={() => navigation.goBack()}
           title={route.name}
           right="more-vertical"
           onRightPress={() => console.log('right')}

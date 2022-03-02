@@ -33,7 +33,7 @@ const PationDetail = ({visible, setVisible, userData, params}) => {
     });
   };
   const handleChat = () => {
-    navigation.navigate('DocChat', {data: params, docId: data._id});
+    navigation.navigate('DocChat', {userId: data._id});
   };
   return (
     <Modal visible={visible} animationType="slide">

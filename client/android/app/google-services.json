@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "884937646947",
+    "project_id": "sleepline-chat",
+    "storage_bucket": "sleepline-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884937646947:android:54b9008aaf7161e930e956",
+        "android_client_info": {
+          "package_name": "com.sleepline2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884937646947-8dumjre3u6rraqeto5430h2fio735voq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpUuC7lEj-yGAN8Xk0xXQslCjqc7n1Ans"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884937646947-8dumjre3u6rraqeto5430h2fio735voq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
