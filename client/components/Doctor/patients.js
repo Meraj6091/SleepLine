@@ -77,7 +77,7 @@ const Patients = ({route, navigation}) => {
     <View style={Styles.container}>
       <MyHeader
         menu
-        //onPressMenu={() => navigation.navigate('CreateAccountAs')}
+        onPressMenu={() => navigation.goBack()}
         title={route.name}
         right="more-vertical"
         onRightPress={() => console.log('right')}

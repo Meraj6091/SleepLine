@@ -9,7 +9,7 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
-
+import MyHeader from '../Navigation/myHeader';
 import {useSelector} from 'react-redux';
 import {getUserMedicalRecord} from './service';
 import UserMedicalRecord from './MedicalRecordsModal';
@@ -37,13 +37,13 @@ const MedicalRecords = ({route, navigation}) => {
         userId: state._id,
       });
     }
-  }, [state]);
+  }, [state, refresh]);
 
   useEffect(() => {
     if (initialData.userId) {
       getAllMedicalRecords();
     }
-  }, [initialData, refresh]);
+  }, [initialData]);
 
   const showMedicalRecordDetails = (data) => {
     setSelectedUserRecord({...data});
@@ -66,6 +66,13 @@ const MedicalRecords = ({route, navigation}) => {
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>
+        <MyHeader
+          onPressMenu={() => navigation.goBack()}
+          title={route.name}
+          right="more-vertical"
+          onRightPress={() => console.log('right')}
+          user={false}
+        />
         {userMedialRecods && (
           <UserMedicalRecord
             visible={visible}

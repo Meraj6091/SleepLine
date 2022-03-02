@@ -8,9 +8,9 @@ const IconSize = 24;
 
 const AppHeader = ({
   style,
-  menu,
+  menu = false,
   onPressMenu,
-  back,
+  back = true,
   onPressBack,
   title,
   right,
@@ -26,13 +26,13 @@ const AppHeader = ({
 }) => {
   const LeftView = () => (
     <View style={styles.view}>
-      {menu && (
+      {/* {menu && (
         <TouchableOpacity onPress={onPressMenu}>
           <Feather name="menu" size={IconSize} color={iconColor} />
         </TouchableOpacity>
-      )}
+      )} */}
       {back && (
-        <TouchableOpacity onPress={onPressBack}>
+        <TouchableOpacity onPress={onPressMenu}>
           <Feather name="arrow-left" size={IconSize} color={iconColor} />
         </TouchableOpacity>
       )}

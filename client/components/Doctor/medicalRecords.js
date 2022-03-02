@@ -14,6 +14,7 @@ import Add from 'react-native-vector-icons/AntDesign';
 import AddRecords from './AddMedicalRecords/addMedicalRecordsModal';
 import Chat from 'react-native-vector-icons/Entypo';
 import Medical from 'react-native-vector-icons/FontAwesome5';
+import MyHeader from '../Navigation/myHeader';
 import {useSelector} from 'react-redux';
 import {getAllDoctorMedicalRecords, getUserMedicalRecords} from './service';
 const MedicalRecords = ({route, navigation}) => {
@@ -30,7 +31,7 @@ const MedicalRecords = ({route, navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getAllMedicalRecords();
+      setRefresh(!refresh);
     });
     return unsubscribe;
   }, [navigation]);
@@ -41,7 +42,7 @@ const MedicalRecords = ({route, navigation}) => {
         docId: state._id,
       });
     }
-  }, [state]);
+  }, [state, refresh]);
 
   useEffect(() => {
     if (initialData.docId) {
@@ -70,6 +71,13 @@ const MedicalRecords = ({route, navigation}) => {
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>
+        <MyHeader
+          onPressMenu={() => navigation.goBack()}
+          title={route.name}
+          right="more-vertical"
+          onRightPress={() => console.log('right')}
+          user={false}
+        />
         {userMedialRecods && (
           <AddRecords
             visible={visible}

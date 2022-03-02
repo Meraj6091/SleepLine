@@ -97,7 +97,7 @@ const Profile = ({route, navigation}) => {
       <View style={styles.container}>
         <MyHeader
           menu
-          onPressMenu={() => navigation.openDrawer()}
+          onPressMenu={() => navigation.goBack()}
           title={route.name}
           right="more-vertical"
           onRightPress={() => console.log('right')}

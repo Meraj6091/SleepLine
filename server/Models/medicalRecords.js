@@ -26,6 +26,10 @@ const MedicalRecordsSchema = new mongoose.Schema({
 	remarks: {
 		type: String,
 	},
+	docName: {
+		type: String,
+	},
+
 	docId: {
 		type: Schema.Types.ObjectId,
 		ref: "DoctorProfile",

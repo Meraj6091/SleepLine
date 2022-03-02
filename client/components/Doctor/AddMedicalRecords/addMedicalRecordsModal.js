@@ -29,6 +29,7 @@ const AddRecords = ({
   setVisible,
   userData,
   docId,
+  docName,
   onEdit,
   setOnEdit,
   selectedUserRecod,
@@ -78,6 +79,7 @@ const AddRecords = ({
         postdata.id = selectedUserRecod._id;
         postdata.firstName = userData?.firstName;
         postdata.lastName = userData?.lastName;
+        postdata.docName = docName;
         if (onUpdate) {
           const {data} = await updateMedicalRecord(postdata);
           if (data) {
@@ -109,7 +111,7 @@ const AddRecords = ({
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#F5F5F5',
-            height: 660,
+            height: 690,
           }}>
           <View
             style={{
@@ -226,9 +228,20 @@ const AddRecords = ({
                 disabled={onEdit}
               />
             </View>
+            <View style={{marginTop: 5}}>
+              <TextInput
+                label="Doctor Name"
+                value={docName || selectedUserRecod.docName}
+                mode="outlined"
+                theme={{
+                  colors: {primary: '#0073CF', underlineColor: 'transparent'},
+                }}
+                disabled
+              />
+            </View>
           </View>
           {onEdit ? (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', bottom: 25}}>
               <Button
                 style={{margin: 5}}
                 mode="contained"

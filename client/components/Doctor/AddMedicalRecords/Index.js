@@ -77,6 +77,7 @@ const AddMedicalRecords = ({route, navigation}) => {
             setVisible={setVisible}
             userData={data}
             docId={state._id}
+            docName={`${state.firstName} ${state.lastName}`}
             onEdit={onEdit}
             setOnEdit={setOnEdit}
             selectedUserRecod={selectedUserRecod}

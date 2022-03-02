@@ -79,7 +79,7 @@ const Home = ({route, navigation}) => {
   return (
     <View style={Styles.container}>
       <MyHeader
-        menu
+        back={false}
         title={route.name}
         right="more-vertical"
         onRightPress={() => console.log('right')}

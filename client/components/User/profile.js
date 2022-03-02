@@ -83,8 +83,7 @@ const Profile = ({route, navigation}) => {
     <ScrollView style={{backgroundColor: 'white'}} ref={scrollRef}>
       <View style={styles.container}>
         <MyHeader
-          menu
-          //onPressMenu={() => navigation.navigate('CreateAccountAs')}
+          onPressMenu={() => navigation.goBack()}
           title={route.name}
           right="more-vertical"
           onRightPress={() => console.log('right')}

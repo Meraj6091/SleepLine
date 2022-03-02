@@ -143,6 +143,17 @@ const UserMedicalRecord = ({
                 disabled
               />
             </View>
+            <View style={{marginTop: 5}}>
+              <TextInput
+                label="Doctor Name"
+                value={selectedUserRecod.docName}
+                mode="outlined"
+                theme={{
+                  colors: {primary: '#0073CF', underlineColor: 'transparent'},
+                }}
+                disabled
+              />
+            </View>
           </View>
         </View>
       </ScrollView>

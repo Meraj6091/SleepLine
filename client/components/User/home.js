@@ -85,6 +85,7 @@ const Home = ({route, navigation}) => {
     <View style={Styles.container}>
       <MyHeader
         menu
+        back={false}
         //onPressMenu={() => navigation.navigate('CreateAccountAs')}
         title={route.name}
         right="more-vertical"
