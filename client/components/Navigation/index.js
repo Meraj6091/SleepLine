@@ -41,8 +41,8 @@ const userTabArr = [
     component: MedicalRecords,
   },
   {
-    route: 'Therapists ',
-    label: 'Therapists ',
+    route: 'Therapists',
+    label: 'Therapists',
     type: Icons.Fontisto,
     icon: 'doctor',
     component: Therapiests,

@@ -16,6 +16,7 @@ import Chat from 'react-native-vector-icons/Entypo';
 import Medical from 'react-native-vector-icons/FontAwesome5';
 import {useSelector} from 'react-redux';
 import {getUserMedicalRecords} from './service';
+import {formatDate} from '../../Helpers/dateFormatter';
 const AddMedicalRecords = ({route, navigation}) => {
   const {params} = route;
   const {userData} = params;
@@ -132,10 +133,13 @@ const AddMedicalRecords = ({route, navigation}) => {
                         }}>
                         Medical No : {item.medicalNo}
                       </Text>
+                      <Text style={{fontSize: 14, opacity: 0.7}}>
+                        {formatDate(item.createdDate)}
+                      </Text>
                       <View style={{flexDirection: 'row', paddingTop: 5}}>
                         <Text
                           style={{
-                            fontSize: 15,
+                            fontSize: 12,
                             opacity: 1.8,
                             color: '#0099cc',
                           }}>

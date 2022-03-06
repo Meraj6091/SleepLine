@@ -13,6 +13,7 @@ import MyHeader from '../Navigation/myHeader';
 import {useSelector} from 'react-redux';
 import {getUserMedicalRecord} from './service';
 import UserMedicalRecord from './MedicalRecordsModal';
+import {formatDate} from '../Helpers/dateFormatter';
 
 const MedicalRecords = ({route, navigation}) => {
   const SPACING = 20;
@@ -116,10 +117,13 @@ const MedicalRecords = ({route, navigation}) => {
                         }}>
                         Medical No : {item.medicalNo}
                       </Text>
+                      <Text style={{fontSize: 14, opacity: 0.7}}>
+                        {formatDate(item.createdDate)}
+                      </Text>
                       <View style={{flexDirection: 'row', paddingTop: 5}}>
                         <Text
                           style={{
-                            fontSize: 15,
+                            fontSize: 12,
                             opacity: 1.8,
                             color: '#0099cc',
                           }}>
