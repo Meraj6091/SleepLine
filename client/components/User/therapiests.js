@@ -45,18 +45,6 @@ const Therapiests = ({route, navigation}) => {
     getAllDocProfiles();
   }, []);
 
-  useEffect(() => {
-    console.log(channeled);
-  }, [channeled]);
-
-  // useEffect(() => {
-  //   checkIsChanneled();
-  // }, [state]);
-
-  useEffect(() => {
-    console.log(profileInfo);
-  }, [profileInfo]);
-
   const getAllDocProfiles = async () => {
     const {data} = await getAllDocInfo();
     setProfileInfo(data);

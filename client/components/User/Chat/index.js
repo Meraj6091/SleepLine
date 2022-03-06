@@ -1,22 +1,11 @@
 //@refresh reset
 import React, {useState, useRef, useEffect, useCallback} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-  BackHandler,
-  FlatList,
-  StatusBar,
-  Modal,
-} from 'react-native';
 
 import {useSelector} from 'react-redux';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import firestore from '@react-native-firebase/firestore';
+import SendIcon from '../../../assets/icons/SendIcon';
+import {Image, TouchableOpacity} from 'react-native';
 
 const chatsRef = firestore().collection('chats');
 
@@ -72,59 +61,18 @@ const UserChat = ({route, navigation}) => {
     const writes = messages.map((m) => chatsRef.add(m));
     await Promise.all(writes);
   }
+
+  const renderSend = (sendProps) => {
+    if (sendProps.text.trim().length > 0) {
+      return (
+        <TouchableOpacity>
+          <SendIcon />
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
   return <GiftedChat messages={messages} onSend={handleSend} user={user} />;
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  containerSnapBar: {
-    bottom: 280,
-  },
-  image: {
-    width: 300,
-    height: 150,
-    marginVertical: 30,
-  },
-  textTitle: {
-    fontFamily: 'Foundation',
-    fontSize: 30,
-    marginVertical: 10,
-  },
-  textBody: {
-    fontFamily: 'Foundation',
-    fontSize: 16,
-  },
-  formContainer: {
-    width: '90%',
-    marginVertical: 10,
-  },
-  inputContainer: {
-    borderBottomWidth: 0,
-  },
-  inputText: {
-    color: '#52524e',
-    fontWeight: 'bold',
-    marginLeft: 5,
-  },
-  submit: {
-    width: '45%',
-    height: 50,
-    borderColor: 'blue',
-    borderRadius: 10,
-    marginVertical: 10,
-    borderWidth: 0,
-    margin: 5,
-  },
-  submitText: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: 'white',
-    alignSelf: 'center',
-    marginVertical: 10,
-  },
-});
 
 export default UserChat;

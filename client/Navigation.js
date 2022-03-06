@@ -28,6 +28,7 @@ import DocDetails from './components/User/DocModal';
 import UserChat from './components/User/Chat';
 import AddMedicalRecords from './components/Doctor/AddMedicalRecords/Index';
 import DocChat from './components/Doctor/Chat';
+import PaymentGateWay from './components/User/PaymentProcess/paymentGateway';
 
 const Stack = createStackNavigator();
 
@@ -109,6 +110,11 @@ export default function Navigation() {
         <Stack.Screen
           name="PaymentProcess"
           component={PaymentProcess}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PaymentGateWay"
+          component={PaymentGateWay}
           options={{headerShown: false}}
         />
         <Stack.Screen
