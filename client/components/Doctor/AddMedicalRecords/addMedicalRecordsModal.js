@@ -67,7 +67,6 @@ const AddRecords = ({
     try {
       if (!medicalRecord.medicalNo) {
         setValidation(true);
-        return;
       } else {
         if (onEdit === false) {
           setOnUpdate(false);

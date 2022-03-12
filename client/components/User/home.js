@@ -81,6 +81,11 @@ const Home = ({route, navigation}) => {
       console.log(err);
     }
   };
+  const handleTrack = (data) => {
+    if (data === 'Track') {
+      navigation.navigate('SleepTracker');
+    }
+  };
   return (
     <View style={Styles.container}>
       <MyHeader
@@ -119,29 +124,35 @@ const Home = ({route, navigation}) => {
               }}
               renderItem={({item, index}) => {
                 return (
-                  <View style={styles.cardBody}>
-                    <Image
-                      source={item.img}
-                      style={{
-                        width: AVATAR_SIZE,
-                        height: AVATAR_SIZE,
-                        borderRadius: AVATAR_SIZE,
-                        marginRight: SPACING / 2,
-                      }}
-                    />
-                    <View>
-                      <Text style={{fontSize: 20, fontWeight: '700'}}>
-                        {item.name}
-                      </Text>
-                      <Text style={{fontSize: 18, opacity: 0.7}}>
-                        {item.msg}
-                      </Text>
-                      <Text
-                        style={{fontSize: 12, opacity: 0.8, color: '#0099cc'}}>
-                        {item.vehical}
-                      </Text>
+                  <TouchableOpacity onPress={() => handleTrack(item.name)}>
+                    <View style={styles.cardBody}>
+                      <Image
+                        source={item.img}
+                        style={{
+                          width: AVATAR_SIZE,
+                          height: AVATAR_SIZE,
+                          borderRadius: AVATAR_SIZE,
+                          marginRight: SPACING / 2,
+                        }}
+                      />
+                      <View>
+                        <Text style={{fontSize: 20, fontWeight: '700'}}>
+                          {item.name}
+                        </Text>
+                        <Text style={{fontSize: 18, opacity: 0.7}}>
+                          {item.msg}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            opacity: 0.8,
+                            color: '#0099cc',
+                          }}>
+                          {item.vehical}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               }}
             />
