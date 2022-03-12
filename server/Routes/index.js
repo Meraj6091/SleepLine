@@ -2,6 +2,7 @@ const express = require("express");
 const DoctorProfile = require("../Models/doctorProfile");
 const DoctorignUpSchema = require("../Models/doctorSignUpModel");
 const medicalRecords = require("../Models/medicalRecords");
+const sleepTracker = require("../Models/sleepTracker");
 const UserProfile = require("../Models/userProfile");
 const router = express.Router();
 const UsersignUpSchema = require("../Models/userSignUpModel");
@@ -308,5 +309,34 @@ router.post("/getUserMedicalRecord", async (req, res) => {
 		return res.json(err);
 	}
 });
+//save user sleep time
 
+router.post("/createSleepTime", async (req, res) => {
+	try {
+		console.log(req.body);
+		const createSleepTime = await new sleepTracker(req.body);
+		createSleepTime.save().then((data) => {
+			console.log(createSleepTime);
+			return res.json(createSleepTime);
+		});
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+router.post("/getAllSleepInfo", async (req, res) => {
+	try {
+		console.log(req.body);
+		const getAllSleepInfo = await sleepTracker.find({
+			userId: req.body.userId,
+		});
+		console.log(getAllSleepInfo);
+
+		return res.json(getAllSleepInfo);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
 module.exports = router;

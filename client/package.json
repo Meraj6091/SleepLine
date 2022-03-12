@@ -38,6 +38,7 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.2",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-stopwatch-timer": "0.0.21",
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-text-input-mask": "^3.1.4",

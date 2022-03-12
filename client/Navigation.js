@@ -29,6 +29,7 @@ import UserChat from './components/User/Chat';
 import AddMedicalRecords from './components/Doctor/AddMedicalRecords/Index';
 import DocChat from './components/Doctor/Chat';
 import PaymentGateWay from './components/User/PaymentProcess/paymentGateway';
+import SleepTracker from './components/User/SleepTracker';
 
 const Stack = createStackNavigator();
 
@@ -135,6 +136,11 @@ export default function Navigation() {
         <Stack.Screen
           name="AddMedicalRecords"
           component={AddMedicalRecords}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SleepTracker"
+          component={SleepTracker}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

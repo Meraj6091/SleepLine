@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, Image, Dimensions} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
-
-const DocHomeGraphs = () => {
+import Close from 'react-native-vector-icons/Fontisto';
+const DocHomeGraphs = ({close = false, setShowGraph}) => {
+  debugger;
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
     backgroundGradientFromOpacity: 0,
@@ -23,8 +24,24 @@ const DocHomeGraphs = () => {
         justifyContent: 'center',
       }}>
       <Text style={{opacity: 0.8, fontSize: 13, fontWeight: '600'}}>
-        Confirmed Insomnia Cases (Yearly)
+        {close
+          ? 'Weekly Average Slept Time'
+          : 'Confirmed Insomnia Cases (Yearly)'}
       </Text>
+      {close && (
+        <View
+          style={{
+            alignSelf: 'flex-end',
+            marginRight: 10,
+          }}>
+          <Close
+            name="close"
+            color="#b92b27"
+            size={22}
+            onPress={() => setShowGraph(false)}
+          />
+        </View>
+      )}
       <LineChart
         data={{
           labels: ['2000', '2005', '2010', '2015', '2020', '2022'],
