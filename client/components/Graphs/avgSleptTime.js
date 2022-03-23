@@ -29,25 +29,28 @@ const AvgSleptTime = ({close = false, setShowGraph, data}) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <Text style={{opacity: 0.8, fontSize: 13, fontWeight: '600'}}>
-        {close
-          ? 'Weekly Average Slept Time'
-          : 'Confirmed Insomnia Cases (Yearly)'}
-      </Text>
-      {close && (
-        <View
-          style={{
-            alignSelf: 'flex-end',
-            marginRight: 10,
-          }}>
-          <Close
-            name="close"
-            color="#b92b27"
-            size={22}
-            onPress={() => setShowGraph(false)}
-          />
-        </View>
-      )}
+      <View style={{flexDirection: 'row'}}>
+        <Text style={{opacity: 0.8, fontSize: 13, fontWeight: '600'}}>
+          {close
+            ? 'Weekly Average Slept Time'
+            : 'Confirmed Insomnia Cases (Yearly)'}
+        </Text>
+        {close && (
+          <View
+            style={{
+              alignSelf: 'flex-end',
+              marginRight: 10,
+              paddingLeft: 40,
+            }}>
+            <Close
+              name="close"
+              color="#b92b27"
+              size={22}
+              onPress={() => setShowGraph(false)}
+            />
+          </View>
+        )}
+      </View>
       {filterdData.length > 0 && (
         <LineChart
           data={{

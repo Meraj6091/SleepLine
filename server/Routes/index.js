@@ -3,6 +3,7 @@ const DoctorProfile = require("../Models/doctorProfile");
 const DoctorignUpSchema = require("../Models/doctorSignUpModel");
 const medicalRecords = require("../Models/medicalRecords");
 const sleepTracker = require("../Models/sleepTracker");
+const userProfile = require("../Models/userProfile");
 const UserProfile = require("../Models/userProfile");
 const router = express.Router();
 const UsersignUpSchema = require("../Models/userSignUpModel");
@@ -334,6 +335,26 @@ router.post("/getAllSleepInfo", async (req, res) => {
 		console.log(getAllSleepInfo);
 
 		return res.json(getAllSleepInfo);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
+router.post("/updateProfile", async (req, res) => {
+	try {
+		console.log(req.body);
+		let updatePassCode;
+		const updateProfile = await userProfile
+			.updateOne(req.body)
+			.where({ _id: req.body.id });
+		console.log(updateProfile);
+		if (req.body.password && req.body.confirmPassword) {
+			updatePassCode = await UsersignUpSchema.updateOne(req.body).where({
+				_id: req.body.signUpId,
+			});
+		}
+		if (updateProfile || updatePassCode) return res.json(true);
 	} catch (err) {
 		console.log(err);
 		return res.json(err);

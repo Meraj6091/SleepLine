@@ -7,13 +7,14 @@
  */
 
 import React, {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, LogBox} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import Navigation from './Navigation';
 
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
+    LogBox.ignoreAllLogs();
   }, []);
 
   return <Navigation />;

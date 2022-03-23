@@ -18,7 +18,8 @@ import {useDispatch} from 'react-redux';
 import MyHeader from '../Navigation/myHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import {getAllUserInfo} from './service';
-import {saveData} from '../../Containers/State/action';
+import {saveData, saveSignUpId} from '../../Containers/State/action';
+import {getGreetings} from '../Helpers/greetings';
 
 const Home = ({route, navigation}) => {
   const {params} = route;
@@ -76,6 +77,11 @@ const Home = ({route, navigation}) => {
             ...data.userProfile[0],
           }),
         );
+        dispatch(
+          saveSignUpId({
+            id: data.email[0]._id,
+          }),
+        );
       }
     } catch (err) {
       console.log(err);
@@ -112,7 +118,7 @@ const Home = ({route, navigation}) => {
               justifyContent: 'center',
             }}>
             <Text style={styles.textTitleChoose}>
-              Hi {params.user},{'\n'}how your feeling today,
+              {getGreetings()} {params.user},{'\n'}how your feeling today,
             </Text>
           </View>
           <View>

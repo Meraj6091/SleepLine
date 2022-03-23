@@ -14,7 +14,7 @@ import Cancel from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Snackbar, ActivityIndicator, Colors} from 'react-native-paper';
 import Logout from 'react-native-vector-icons/AntDesign';
 import {Input} from 'react-native-elements';
-import {getAllUserInfo} from './service';
+import {getAllUserInfo, updateProfile} from './service';
 import {formatDate} from '../Helpers/dateFormatter';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useSelector} from 'react-redux';
@@ -26,8 +26,14 @@ const Profile = ({route, navigation}) => {
   const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const state = useSelector((state) => state.userData);
+  const signUpState = useSelector((state) => state.signUpData);
+  const [editProfile, setEditProfile] = useState({});
 
   const handleEdit = (event) => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
     setIsEdit(true);
     setVisible(false);
     setViewProfile({});
@@ -40,6 +46,10 @@ const Profile = ({route, navigation}) => {
       getAllUsers();
     }
   }, [isEdit, state]);
+  useEffect(() => {
+    console.log(state);
+    console.log(signUpState);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -59,14 +69,27 @@ const Profile = ({route, navigation}) => {
     });
   };
 
+  const handleChange = (event, id) => {
+    setViewProfile({
+      ...viewProfile,
+      [id]: event,
+    });
+  };
+
   const handleSubmit = async (event) => {
     try {
-      setIsEdit(false);
-      setVisible(false);
-      scrollRef.current?.scrollTo({
-        y: 0,
-        animated: true,
-      });
+      let postData = viewProfile;
+      postData.id = state._id;
+      postData.signUpId = signUpState.id;
+      const data = await updateProfile(postData);
+      if (data) {
+        setVisible(false);
+        scrollRef.current?.scrollTo({
+          y: 0,
+          animated: true,
+        });
+        setIsEdit(false);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -140,24 +163,41 @@ const Profile = ({route, navigation}) => {
               />
             </>
           )}
-          <Input label="Weight" disabled={!isEdit} value={viewProfile.weight} />
-          <Input label="Height" disabled={!isEdit} value={viewProfile.height} />
+          <Input
+            label="Weight"
+            disabled={!isEdit}
+            value={viewProfile.weight}
+            onChangeText={(event) => handleChange(event, 'Weight')}
+          />
+          <Input
+            label="Height"
+            disabled={!isEdit}
+            value={viewProfile.height}
+            onChangeText={(event) => handleChange(event, 'height')}
+          />
           <Input
             label="Blood Type"
             disabled={!isEdit}
             value={viewProfile.bloodType}
+            onChangeText={(event) => handleChange(event, 'bloodType')}
           />
           <Input
             label="Date of Birth"
             disabled={!isEdit}
             value={formatDate(viewProfile.dateOfBirth)}
+            onChangeText={(event) => handleChange(event, 'dateOfBirth')}
           />
           {isEdit && (
             <>
-              <Input label="Password" value={viewProfile.password} />
+              <Input
+                label="Password"
+                value={viewProfile.password}
+                onChangeText={(event) => handleChange(event, 'password')}
+              />
               <Input
                 label="Confirm Password"
                 value={viewProfile.confirmPassword}
+                onChangeText={(event) => handleChange(event, 'confirmPassword')}
               />
             </>
           )}

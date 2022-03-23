@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   textTitleChoose: {
     textAlign: 'center',
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'sans-serif-thin',
     marginRight: 100,
   },

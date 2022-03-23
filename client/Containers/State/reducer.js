@@ -1,5 +1,5 @@
 let initialState = {};
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'saveUserInitialData':
       return (state = action.payload);
@@ -9,4 +9,12 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
-export default reducer;
+let initialState2 = {};
+export const signUpReducer = (state = initialState2, action) => {
+  switch (action.type) {
+    case 'saveSignUpId':
+      return (state = action.payload);
+    default:
+      return state;
+  }
+};

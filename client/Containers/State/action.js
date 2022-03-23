@@ -11,3 +11,10 @@ export const saveUserInitialDetails = (data) => {
     payload: data,
   };
 };
+
+export const saveSignUpId = (data) => {
+  return {
+    type: 'saveSignUpId',
+    payload: data,
+  };
+};

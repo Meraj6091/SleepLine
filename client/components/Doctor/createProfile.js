@@ -15,6 +15,7 @@ import DatePicker from 'react-native-date-picker';
 import {formatDate} from '../Helpers/dateFormatter';
 import {createDocProfile} from './service';
 import AsyncStorage from '@react-native-community/async-storage';
+import TextInputMask from 'react-native-text-input-mask';
 
 const CreateProfile = ({route, navigation}) => {
   const {doctor, user} = route.params;
@@ -22,35 +23,121 @@ const CreateProfile = ({route, navigation}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [createProfile, setCreateProfile] = useState({});
   const [open, setOpen] = useState(false);
+  const [isNotValidated, setIsNotValidated] = useState(true);
+  const [isDisable, setIsDisable] = useState(false);
+  const [validation, setValidation] = useState({});
+  const [isEqual, setIsEqual] = useState(false);
 
+  useEffect(async () => {
+    let newUser = await AsyncStorage.getItem('newUser');
+    let localData = JSON.parse(newUser);
+    setCreateProfile({
+      ...createProfile,
+      isEqualFirstName: localData.signUpUser.firstName,
+    });
+  }, []);
   const handleChange = (event, id) => {
     setCreateProfile({
       ...createProfile,
       [id]: event,
     });
+    if (id === 'nic') {
+      let isnum = /^\d+$/.test(event);
+      if (!isnum) {
+        setIsEqual(true);
+      } else setIsEqual(false);
+    }
+  };
+
+  const formValidation = () => {
+    if (!createProfile.firstName) {
+      setValidation({
+        firstName: 'ENTER YOUR FIRSTNAME',
+      });
+    } else if (createProfile.firstName !== createProfile.isEqualFirstName) {
+      setValidation({
+        firstName: 'NAME DO NOT MATCH',
+      });
+    } else if (!createProfile.lastName) {
+      setValidation({
+        lastName: 'ENTER YOUR LASTNAME',
+      });
+    } else if (!createProfile.dateOfBirth) {
+      setValidation({
+        dateOfBirth: 'ENTER YOUR DATE OF BIRTH',
+      });
+    } else if (!createProfile.institution) {
+      setValidation({
+        institution: 'ENTER YOUR INSTITUTION',
+      });
+    } else if (!createProfile.slmcNo) {
+      setValidation({
+        slmcNo: 'ENTER YOUR SLMC REGISTRATION NO',
+      });
+    } else if (!createProfile.clinic) {
+      setValidation({
+        clinic: 'ENTER YOUR CLINIC ADDRESS',
+      });
+    } else if (!createProfile.nic) {
+      setValidation({
+        nic: 'ENTER YOUR NIC NO',
+      });
+    } else if (createProfile.nic.length !== 12 || isEqual) {
+      setValidation({
+        nic: 'INVALID NIC',
+      });
+    }
+
+    // else if (
+    //   createProfile.nic.includes('V') ||
+    //   createProfile.nic.includes('v')
+    // ) {
+    //   if (createProfile.nic.length !== 10)
+    //     setValidation({
+    //       nic: 'Invalid NIC',
+    //     });
+    // }
+    else if (!createProfile.contactNo) {
+      setValidation({
+        contactNo: 'ENTER YOUR CONTACT NO',
+      });
+    } else if (createProfile?.contactNo?.length !== 14) {
+      setValidation({
+        contactNo: 'INVALID CONTACT NO',
+      });
+    } else {
+      setIsNotValidated(false);
+    }
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    formValidation();
+    if (isNotValidated === false) {
+      try {
+        setIsDisable(true);
+        let postdata = createProfile;
 
-    let postdata = createProfile;
-
-    const {data} = await createDocProfile(postdata);
-    if (data) {
-      //   let obj = {
-      //     user: data.firstName,
-      //     doctor: doctor,
-      //   };
-      //   await AsyncStorage.setItem('NewUser', JSON.stringify(obj));
-      await AsyncStorage.setItem('User', JSON.stringify(user));
-      //   let newUser = await AsyncStorage.getItem('User');
-      //   let obj = JSON.parse(newUser);
-      if (doctor) {
-        navigation.navigate('DocNavigation', {
-          doctor: doctor,
-          user: user,
-        });
+        const {data} = await createDocProfile(postdata);
+        if (data) {
+          //   let obj = {
+          //     user: data.firstName,
+          //     doctor: doctor,
+          //   };
+          //   await AsyncStorage.setItem('NewUser', JSON.stringify(obj));
+          await AsyncStorage.setItem('User', JSON.stringify(user));
+          //   let newUser = await AsyncStorage.getItem('User');
+          //   let obj = JSON.parse(newUser);
+          if (doctor) {
+            navigation.navigate('DocNavigation', {
+              doctor: doctor,
+              user: user,
+            });
+          }
+          // navigation.navigate('DocNavigation');
+        }
+      } catch (err) {
+        console.log(err);
       }
-      // navigation.navigate('DocNavigation');
     }
   };
   return (
@@ -87,6 +174,7 @@ const CreateProfile = ({route, navigation}) => {
                 color={isFocused ? '#0779e4' : 'grey'}
               />
             }
+            errorMessage={validation.firstName && validation.firstName}
           />
           <Input
             placeholder="Last Name"
@@ -101,6 +189,7 @@ const CreateProfile = ({route, navigation}) => {
                 color={isFocused ? '#0779e4' : 'grey'}
               />
             }
+            errorMessage={validation.lastName && validation.lastName}
           />
           <Input
             placeholder="Date of Birth"
@@ -117,8 +206,8 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.dateOfBirth && validation.dateOfBirth}
           />
-
           <DatePicker
             modal
             open={open}
@@ -147,6 +236,7 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.institution && validation.institution}
           />
           <Input
             placeholder="SLMC Registration No"
@@ -163,6 +253,7 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.slmcNo && validation.slmcNo}
           />
           <Input
             placeholder="Clinic Address"
@@ -179,8 +270,9 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.clinic && validation.clinic}
           />
-          <Input
+          {/* <Input
             placeholder="Contact Number"
             onFocus={() => setIsFocused(true)}
             inputContainerStyle={styles.inputContainer}
@@ -195,7 +287,8 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
-          />
+            errorMessage={validation.contactNo && validation.contactNo}
+          /> */}
           <Input
             placeholder="National ID Number"
             onFocus={() => setIsFocused(true)}
@@ -211,13 +304,49 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.nic && validation.nic}
           />
+
+          <View style={{flexDirection: 'row'}}>
+            <Icon
+              name="check"
+              size={22}
+              color={isFocused ? '#0779e4' : 'grey'}
+              style={{marginLeft: 10}}
+            />
+
+            <TextInputMask
+              onFocus={() => setIsFocused(true)}
+              placeholder="Contact Number"
+              keyboardType="number-pad"
+              value={createProfile.contactNo}
+              onChangeText={(event) => handleChange(event, 'contactNo')}
+              affineFormats={[]}
+              customNotations={[]}
+              affinityCalculationStrategy={'WHOLE_STRING'}
+              style={{
+                marginBottom: 10,
+                marginLeft: 15,
+                flex: 1,
+                fontSize: 18,
+                padding: 0,
+              }}
+              mask={'+94 [00] [0000000]'}
+            />
+          </View>
+          <View style={{marginLeft: 15, bottom: 5}}>
+            <Text style={{color: 'red', fontSize: 12}}>
+              {validation.contactNo}
+            </Text>
+          </View>
         </View>
 
         <TouchableOpacity
           style={[styles.submit, {backgroundColor: '#0251ce'}]}
           onPress={handleSubmit}>
-          <Text style={styles.submitText}>SAVE</Text>
+          <Text style={styles.submitText}>
+            {!isDisable ? 'SAVE' : 'SAVING...'}
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

@@ -33,6 +33,16 @@ const SignUp = ({route, navigation}) => {
       setValidation({
         validateMsgEmail: 'PLEASE ENTER YOUR EMAIL',
       });
+    } else if (
+      !signUpData.email
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        )
+    ) {
+      setValidation({
+        validateMsgEmail: 'INVALID EMAIL',
+      });
     } else if (!signUpData.password) {
       setValidation({
         validateMsgPassword: 'PLEASE ENTER YOUR PASSWORD',

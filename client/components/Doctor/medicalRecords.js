@@ -32,7 +32,9 @@ const MedicalRecords = ({route, navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      setRefresh(!refresh);
+      if (initialData.docId) {
+        getAllMedicalRecords();
+      }
     });
     return unsubscribe;
   }, [navigation]);
