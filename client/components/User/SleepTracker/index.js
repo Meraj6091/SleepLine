@@ -15,6 +15,7 @@ import {useSelector} from 'react-redux';
 import {getAllSleepInfo, saveSleepTime} from './service';
 import {Snackbar} from 'react-native-paper';
 import AvgSleptTime from '../../Graphs/avgSleptTime';
+import {data} from './constant';
 
 const SleepTracker = () => {
   const Userstate = useSelector((state) => state.userData);
@@ -171,25 +172,8 @@ const SleepTracker = () => {
     else {
       setSplitText(item.sleepTime.split(':'));
 
-      // setFilteredData({
-      //   ...filteredData,
-      //   totalTime: item.sleepTime,
-      // });
       setShowTimer(false);
     }
-  };
-  const options = {
-    container: {
-      backgroundColor: '#0099cc',
-      padding: 10,
-      borderRadius: 15,
-      width: 200,
-    },
-    text: {
-      fontSize: 30,
-      color: '#FFF',
-      textAlign: 'center',
-    },
   };
 
   const ListItem = ({item}) => {
@@ -225,14 +209,6 @@ const SleepTracker = () => {
       </View>
     );
   };
-  const data = [
-    {
-      name: 'Average Slept Time',
-      vehical: 'Now',
-      msg: 'Check Your Weekly Report',
-      img: require('../../../assets/track.png'),
-    },
-  ];
 
   return (
     <View style={styles.container}>
@@ -443,5 +419,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-
+const options = {
+  container: {
+    backgroundColor: '#0099cc',
+    padding: 10,
+    borderRadius: 15,
+    width: 200,
+  },
+  text: {
+    fontSize: 30,
+    color: '#FFF',
+    textAlign: 'center',
+  },
+};
 export default SleepTracker;

@@ -20,3 +20,7 @@ export const isChanneled = (data) => {
 export const getUserMedicalRecord = (data) => {
   return axios.post(`${apiEndPoint()}/app/getUserMedicalRecord`, data);
 };
+
+export const updateProfile = (data) => {
+  return axios.post(`${apiEndPoint()}/app/updateProfile`, data);
+};

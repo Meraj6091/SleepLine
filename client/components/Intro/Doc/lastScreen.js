@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     width: 320,
     height: 200,
     marginVertical: 55,
+    opacity: 0.6,
   },
 
   textTitle: {

@@ -21,123 +21,145 @@ function SecondScreen({route, navigation}) {
           <Text style={styles.textTitle2}>
             There's so much you can do {'\n'} with SleepLine,
           </Text>
-          <View style={{flexDirection: 'row', padding: 5}}>
+          <View style={{marginBottom: 30}}>
             <View
               style={{
-                borderRadius: 100,
-                borderWidth: 1,
-                width: 100,
-                height: 100,
-                margin: 5,
+                flexDirection: 'row',
+                padding: 5,
+                justifyContent: 'center',
               }}>
               <View
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 10,
+                  borderRadius: 100,
+                  borderColor: '#F08080',
+                  borderWidth: 1,
+                  width: 100,
+                  height: 100,
+                  margin: 5,
                 }}>
-                <Icon name="world-o" size={30} color="#89CFF0" />
-                <Text style={{textAlign: 'center'}}>
-                  Connect with Community
-                </Text>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <Icon name="world-o" size={30} color="#89CFF0" />
+                  <Text style={{textAlign: 'center'}}>
+                    Connect with Community
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  borderRadius: 100,
+                  borderColor: '#F08080',
+                  borderWidth: 1,
+                  width: 100,
+                  height: 100,
+                  margin: 5,
+                }}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <Icon name="comments" size={30} color="#89CFF0" />
+                  <Text style={{textAlign: 'center'}}>
+                    Get {'\n'} Suggestions
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  borderRadius: 100,
+                  borderColor: '#F08080',
+                  borderWidth: 1,
+                  width: 100,
+                  height: 100,
+                  margin: 5,
+                }}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <Icon name="doctor" size={30} color="#89CFF0" />
+                  <Text style={{textAlign: 'center'}}>
+                    Interact with Therapiests
+                  </Text>
+                </View>
               </View>
             </View>
             <View
               style={{
-                borderRadius: 100,
-                borderWidth: 1,
-                width: 100,
-                height: 100,
-                margin: 5,
+                flexDirection: 'row',
+                padding: 5,
+                justifyContent: 'center',
               }}>
               <View
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 10,
+                  borderRadius: 100,
+                  borderColor: '#F08080',
+                  borderWidth: 1,
+                  width: 100,
+                  height: 100,
+                  margin: 5,
                 }}>
-                <Icon name="comments" size={30} color="#89CFF0" />
-                <Text style={{textAlign: 'center'}}>
-                  Get {'\n'} Suggestions
-                </Text>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <Icon name="heartbeat-alt" size={30} color="#89CFF0" />
+                  <Text style={{textAlign: 'center'}}>
+                    Predict Your Sickness
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View
-              style={{
-                borderRadius: 100,
-                borderWidth: 1,
-                width: 100,
-                height: 100,
-                margin: 5,
-              }}>
               <View
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 10,
+                  borderRadius: 100,
+                  borderColor: '#F08080',
+                  borderWidth: 1,
+                  width: 100,
+                  height: 100,
+                  margin: 5,
                 }}>
-                <Icon name="doctor" size={30} color="#89CFF0" />
-                <Text style={{textAlign: 'center'}}>
-                  Interact with Therapiests
-                </Text>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <Icon name="line-chart" size={30} color="#89CFF0" />
+                  <Text style={{textAlign: 'center'}}>
+                    Track Your Daily Sleep
+                  </Text>
+                </View>
               </View>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', padding: 5}}>
-            <View
-              style={{
-                borderRadius: 100,
-                borderWidth: 1,
-                width: 100,
-                height: 100,
-                margin: 5,
-              }}>
               <View
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 10,
+                  borderRadius: 100,
+                  borderColor: '#F08080',
+                  borderWidth: 1,
+                  width: 100,
+                  height: 100,
+                  margin: 5,
                 }}>
-                <Icon name="heartbeat-alt" size={30} color="#89CFF0" />
-                <Text style={{textAlign: 'center'}}>Predict Your Sickness</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                borderRadius: 100,
-                borderWidth: 1,
-                width: 100,
-                height: 100,
-                margin: 5,
-              }}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 10,
-                }}>
-                <Icon name="line-chart" size={30} color="#89CFF0" />
-                <Text style={{textAlign: 'center'}}>
-                  Track Your Daily Sleep
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                borderRadius: 100,
-                borderWidth: 1,
-                width: 100,
-                height: 100,
-                margin: 5,
-              }}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 10,
-                }}>
-                <Icon name="folder" size={30} color="#89CFF0" />
-                <Text style={{textAlign: 'center'}}>View Medical Records</Text>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <Icon name="folder" size={30} color="#89CFF0" />
+                  <Text style={{textAlign: 'center'}}>
+                    View Medical Records
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -161,8 +183,7 @@ function SecondScreen({route, navigation}) {
           }}
           containerStyle={{
             width: 200,
-            marginHorizontal: 50,
-            marginVertical: 10,
+            marginTop: 50,
           }}
           onPress={() =>
             navigation.navigate('LastScreen', {
@@ -201,7 +222,7 @@ const styles = StyleSheet.create({
   textTitle2: {
     fontFamily: 'sans-serif-thin',
     fontSize: 30,
-    marginVertical: 100,
+    marginVertical: 50,
   },
   textBody: {
     fontFamily: 'Foundation',

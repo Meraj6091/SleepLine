@@ -30,7 +30,7 @@ function FirstScreen({route, navigation}) {
           <Text style={styles.textTitle2}>
             The Purpose of SleepLine is to help you maintain your mental
             well-being{'\n'} {'\n'} {'\n'}We are here to help you in whatever we
-            can
+            can !
           </Text>
         </View>
         <Button

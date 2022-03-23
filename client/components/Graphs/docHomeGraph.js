@@ -3,7 +3,6 @@ import {View, StyleSheet, Text, Image, Dimensions} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import Close from 'react-native-vector-icons/Fontisto';
 const DocHomeGraphs = ({close = false, setShowGraph}) => {
-  debugger;
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
     backgroundGradientFromOpacity: 0,

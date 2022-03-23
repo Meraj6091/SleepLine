@@ -19,9 +19,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 const CreateProfile = ({route, navigation}) => {
   const {doctor, user} = route.params;
 
+  const [validation, setValidation] = useState({});
   const [isFocused, setIsFocused] = useState(false);
   const [createProfile, setCreateProfile] = useState({});
   const [open, setOpen] = useState(false);
+  const [isNotValidated, setIsNotValidated] = useState(true);
+  const [isDisable, setIsDisable] = useState(false);
+
+  useEffect(async () => {
+    let newUser = await AsyncStorage.getItem('newUser');
+    let localData = JSON.parse(newUser);
+    setCreateProfile({
+      ...createProfile,
+      isEqualFirstName: localData.signUpUser.firstName,
+    });
+  }, []);
 
   const handleChange = (event, id) => {
     setCreateProfile({
@@ -29,28 +41,66 @@ const CreateProfile = ({route, navigation}) => {
       [id]: event,
     });
   };
+  const formValidation = () => {
+    if (!createProfile.firstName) {
+      setValidation({
+        firstName: 'ENTER YOUR FIRSTNAME',
+      });
+    } else if (createProfile.firstName !== createProfile.isEqualFirstName) {
+      setValidation({
+        firstName: 'NAME DO NOT MATCH',
+      });
+    } else if (!createProfile.lastName) {
+      setValidation({
+        lastName: 'ENTER YOUR LASTNAME',
+      });
+    } else if (!createProfile.dateOfBirth) {
+      setValidation({
+        dateOfBirth: 'ENTER YOUR DATE OF BIRTH',
+      });
+    } else if (!createProfile.weight) {
+      setValidation({
+        weight: 'ENTER YOUR WEIGHT',
+      });
+    } else if (!createProfile.height) {
+      setValidation({
+        height: 'ENTER YOUR HETGHT',
+      });
+    } else if (!createProfile.bloodType) {
+      setValidation({
+        bloodType: 'ENTER YOUR BLOODTYPE',
+      });
+    } else {
+      setIsNotValidated(false);
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    formValidation();
+    if (isNotValidated === false) {
+      try {
+        setIsDisable(true);
+        let postdata = createProfile;
 
-    let postdata = createProfile;
+        const {data} = await createUserProfile(postdata);
+        if (data) {
+          //   let obj = {
+          //     user: data.firstName,
+          //     doctor: doctor,
+          //   };
+          //   await AsyncStorage.setItem('NewUser', JSON.stringify(obj));
+          await AsyncStorage.setItem('User', JSON.stringify(user));
+          // let newUser = await AsyncStorage.getItem('User');
+          // let obj = JSON.parse(newUser);
 
-    const {data} = await createUserProfile(postdata);
-    if (data) {
-      //   let obj = {
-      //     user: data.firstName,
-      //     doctor: doctor,
-      //   };
-      //   await AsyncStorage.setItem('NewUser', JSON.stringify(obj));
-      await AsyncStorage.setItem('User', JSON.stringify(user));
-      // let newUser = await AsyncStorage.getItem('User');
-      // let obj = JSON.parse(newUser);
+          navigation.navigate('UserNavigation', {
+            doctor: doctor,
+            user: user,
+          });
 
-      navigation.navigate('UserNavigation', {
-        doctor: doctor,
-        user: user,
-      });
-
-      // navigation.navigate('DocNavigation');
+          // navigation.navigate('DocNavigation');
+        }
+      } catch (err) {}
     }
   };
   return (
@@ -80,6 +130,7 @@ const CreateProfile = ({route, navigation}) => {
             inputContainerStyle={styles.inputContainer}
             inputStyle={styles.inputText}
             onChangeText={(event) => handleChange(event, 'firstName')}
+            value={createProfile.firstName}
             leftIcon={
               <Icon
                 name="check"
@@ -87,6 +138,7 @@ const CreateProfile = ({route, navigation}) => {
                 color={isFocused ? '#0779e4' : 'grey'}
               />
             }
+            errorMessage={validation.firstName && validation.firstName}
           />
           <Input
             placeholder="Last Name"
@@ -101,6 +153,7 @@ const CreateProfile = ({route, navigation}) => {
                 color={isFocused ? '#0779e4' : 'grey'}
               />
             }
+            errorMessage={validation.lastName && validation.lastName}
           />
           <Input
             placeholder="Date of Birth"
@@ -117,6 +170,7 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.dateOfBirth && validation.dateOfBirth}
           />
 
           <DatePicker
@@ -147,6 +201,7 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.weight && validation.weight}
           />
           <Input
             placeholder="Height"
@@ -163,13 +218,33 @@ const CreateProfile = ({route, navigation}) => {
                 onPress={() => setOpen(true)}
               />
             }
+            errorMessage={validation.height && validation.height}
+          />
+          <Input
+            placeholder="Blood Type"
+            onFocus={() => setIsFocused(true)}
+            inputContainerStyle={styles.inputContainer}
+            inputStyle={styles.inputText}
+            onChangeText={(event) => handleChange(event, 'bloodType')}
+            value={createProfile.bloodType}
+            leftIcon={
+              <Icon
+                name="check"
+                size={22}
+                color={isFocused ? '#0779e4' : 'grey'}
+                onPress={() => setOpen(true)}
+              />
+            }
+            errorMessage={validation.bloodType && validation.bloodType}
           />
         </View>
 
         <TouchableOpacity
           style={[styles.submit, {backgroundColor: '#0251ce'}]}
           onPress={handleSubmit}>
-          <Text style={styles.submitText}>SAVE</Text>
+          <Text style={styles.submitText}>
+            {!isDisable ? 'SAVE' : 'SAVING...'}
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
