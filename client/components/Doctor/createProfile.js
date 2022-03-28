@@ -28,13 +28,16 @@ const CreateProfile = ({route, navigation}) => {
   const [validation, setValidation] = useState({});
   const [isEqual, setIsEqual] = useState(false);
 
-  useEffect(async () => {
-    let newUser = await AsyncStorage.getItem('newUser');
-    let localData = JSON.parse(newUser);
-    setCreateProfile({
-      ...createProfile,
-      isEqualFirstName: localData.signUpUser.firstName,
-    });
+  useEffect(() => {
+    const getResult = async () => {
+      let newUser = await AsyncStorage.getItem('newUser');
+      let localData = JSON.parse(newUser);
+      setCreateProfile({
+        ...createProfile,
+        isEqualFirstName: localData.signUpUser.firstName,
+      });
+    };
+    getResult();
   }, []);
   const handleChange = (event, id) => {
     setCreateProfile({
@@ -110,7 +113,6 @@ const CreateProfile = ({route, navigation}) => {
     }
   };
   const handleSubmit = async (event) => {
-    event.preventDefault();
     formValidation();
     if (isNotValidated === false) {
       try {

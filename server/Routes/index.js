@@ -360,4 +360,25 @@ router.post("/updateProfile", async (req, res) => {
 		return res.json(err);
 	}
 });
+
+router.post("/updateDocProfile", async (req, res) => {
+	try {
+		console.log(req.body);
+		let updatePassCode;
+		const updateProfile = await DoctorProfile.updateOne(req.body).where({
+			_id: req.body.id,
+		});
+		console.log(updateProfile);
+		if (req.body.password && req.body.confirmPassword) {
+			updatePassCode = await DoctorignUpSchema.updateOne(req.body).where({
+				_id: req.body.signUpId,
+			});
+		}
+		if (updateProfile || updatePassCode) return res.json(true);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
 module.exports = router;

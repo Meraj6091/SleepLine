@@ -26,13 +26,17 @@ const CreateProfile = ({route, navigation}) => {
   const [isNotValidated, setIsNotValidated] = useState(true);
   const [isDisable, setIsDisable] = useState(false);
 
-  useEffect(async () => {
-    let newUser = await AsyncStorage.getItem('newUser');
-    let localData = JSON.parse(newUser);
-    setCreateProfile({
-      ...createProfile,
-      isEqualFirstName: localData.signUpUser.firstName,
-    });
+  useEffect(() => {
+    const getResult = async () => {
+      let newUser = await AsyncStorage.getItem('newUser');
+      let localData = JSON.parse(newUser);
+      setCreateProfile({
+        ...createProfile,
+        isEqualFirstName: localData.signUpUser.firstName,
+      });
+    };
+
+    getResult();
   }, []);
 
   const handleChange = (event, id) => {

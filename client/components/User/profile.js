@@ -11,6 +11,7 @@ import {
 import MyHeader from '../Navigation/myHeader';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Cancel from 'react-native-vector-icons/MaterialCommunityIcons';
+import DateIncon from 'react-native-vector-icons/Fontisto';
 import {Snackbar, ActivityIndicator, Colors} from 'react-native-paper';
 import Logout from 'react-native-vector-icons/AntDesign';
 import {Input} from 'react-native-elements';
@@ -18,38 +19,23 @@ import {getAllUserInfo, updateProfile} from './service';
 import {formatDate} from '../Helpers/dateFormatter';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {saveData, saveSignUpId} from '../../Containers/State/action';
+import DatePicker from 'react-native-date-picker';
 
 const Profile = ({route, navigation}) => {
   const {doctor, user} = route.params;
+  const dispatch = useDispatch();
   const scrollRef = useRef();
+  const state = useSelector((state) => state.userData);
+  const signUpState = useSelector((state) => state.signUpData);
   const [viewProfile, setViewProfile] = useState({});
   const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const state = useSelector((state) => state.userData);
-  const signUpState = useSelector((state) => state.signUpData);
   const [editProfile, setEditProfile] = useState({});
-
-  const handleEdit = (event) => {
-    scrollRef.current?.scrollTo({
-      y: 0,
-      animated: true,
-    });
-    setIsEdit(true);
-    setVisible(false);
-    setViewProfile({});
-  };
-  const handleClose = (event) => {
-    setIsEdit(false);
-  };
-  useEffect(() => {
-    if (user && !isEdit) {
-      getAllUsers();
-    }
-  }, [isEdit, state]);
-  useEffect(() => {
-    console.log(state);
-    console.log(signUpState);
-  }, []);
+  const [open, setOpen] = useState(false);
+  const [isNotValidated, setIsNotValidated] = useState(true);
+  const [validation, setValidation] = useState({});
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -63,7 +49,26 @@ const Profile = ({route, navigation}) => {
     return unsubscribe;
   }, [navigation]);
 
-  const getAllUsers = () => {
+  useEffect(() => {
+    if (user && !isEdit) {
+      getAllUsers();
+    }
+  }, [isEdit, state]);
+
+  const handleEdit = (event) => {
+    setIsEdit(true);
+    setVisible(false);
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+
+    setViewProfile({});
+  };
+  const handleClose = (event) => {
+    setIsEdit(false);
+  };
+  const getAllUsers = async () => {
     setViewProfile({
       ...state,
     });
@@ -75,26 +80,6 @@ const Profile = ({route, navigation}) => {
       [id]: event,
     });
   };
-
-  const handleSubmit = async (event) => {
-    try {
-      let postData = viewProfile;
-      postData.id = state._id;
-      postData.signUpId = signUpState.id;
-      const data = await updateProfile(postData);
-      if (data) {
-        setVisible(false);
-        scrollRef.current?.scrollTo({
-          y: 0,
-          animated: true,
-        });
-        setIsEdit(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleLogOut = (event) => {
     scrollRef.current?.scrollTo({
       y: 0,
@@ -102,6 +87,79 @@ const Profile = ({route, navigation}) => {
     });
     setVisible(!visible);
   };
+
+  const handleDispatch = async () => {
+    try {
+      const {data} = await getAllUserInfo({user: state.firstName});
+
+      if (data) {
+        dispatch(
+          saveData({
+            ...data.email[0],
+            ...data.userProfile[0],
+          }),
+        );
+        dispatch(
+          saveSignUpId({
+            id: data.email[0]._id,
+          }),
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const formValidation = () => {
+    if (viewProfile.password !== viewProfile.confirmPassword) {
+      setValidation({
+        validateMsgConfirmPassword: 'PASSWORD DO NOT MATCH',
+      });
+    } else {
+      setIsNotValidated(false);
+      setValidation({});
+    }
+  };
+  const handleSubmit = async (event) => {
+    try {
+      let postData = viewProfile;
+      postData.id = state._id;
+      postData.signUpId = signUpState.id;
+      if (
+        (viewProfile.password && viewProfile.confirmPassword) ||
+        (viewProfile.password && !viewProfile.confirmPassword)
+      ) {
+        formValidation();
+        if (!isNotValidated) {
+          const {data} = await updateProfile(postData);
+          if (data) {
+            setVisible(false);
+            scrollRef.current?.scrollTo({
+              y: 0,
+              animated: true,
+            });
+
+            await handleDispatch();
+            setIsEdit(false);
+          }
+        }
+      } else {
+        const {data} = await updateProfile(postData);
+        if (data) {
+          setVisible(false);
+          scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+          });
+
+          await handleDispatch();
+          setIsEdit(false);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ScrollView style={{backgroundColor: 'white'}} ref={scrollRef}>
       <View style={styles.container}>
@@ -136,8 +194,17 @@ const Profile = ({route, navigation}) => {
               action={{
                 label: 'Yes',
                 onPress: async () => {
-                  await AsyncStorage.removeItem('User');
-                  await AsyncStorage.removeItem('newUser');
+                  try {
+                    await AsyncStorage.removeItem('User');
+                  } catch (err) {
+                    console.log(err);
+                  }
+                  try {
+                    await AsyncStorage.removeItem('newUser');
+                  } catch (err) {
+                    console.log(err);
+                  }
+
                   navigation.navigate('CreateAccountAs');
                 },
               }}>
@@ -167,7 +234,7 @@ const Profile = ({route, navigation}) => {
             label="Weight"
             disabled={!isEdit}
             value={viewProfile.weight}
-            onChangeText={(event) => handleChange(event, 'Weight')}
+            onChangeText={(event) => handleChange(event, 'weight')}
           />
           <Input
             label="Height"
@@ -183,9 +250,30 @@ const Profile = ({route, navigation}) => {
           />
           <Input
             label="Date of Birth"
-            disabled={!isEdit}
+            disabled
             value={formatDate(viewProfile.dateOfBirth)}
             onChangeText={(event) => handleChange(event, 'dateOfBirth')}
+            leftIcon={
+              <DateIncon
+                name="date"
+                size={22}
+                color={'grey'}
+                onPress={() => isEdit && setOpen(true)}
+              />
+            }
+          />
+          <DatePicker
+            modal
+            open={open}
+            date={new Date()}
+            mode="date"
+            onConfirm={(date) => {
+              setOpen(false);
+              handleChange(date, 'dateOfBirth');
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
           />
           {isEdit && (
             <>
@@ -198,6 +286,10 @@ const Profile = ({route, navigation}) => {
                 label="Confirm Password"
                 value={viewProfile.confirmPassword}
                 onChangeText={(event) => handleChange(event, 'confirmPassword')}
+                errorMessage={
+                  validation.validateMsgConfirmPassword &&
+                  validation.validateMsgConfirmPassword
+                }
               />
             </>
           )}
