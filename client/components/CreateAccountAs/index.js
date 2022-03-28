@@ -18,16 +18,18 @@ const CreateAccountAs = ({route, navigation}) => {
   const getDataFormLocal = async () => {
     let data = await AsyncStorage.getItem('User');
     let newUser = await AsyncStorage.getItem('newUser');
-    let obj = JSON.parse(data);
-    if (obj) {
-      if (obj.doctor) {
-        navigation.navigate('DocNavigation', {
-          user: obj,
-        });
-      } else {
-        navigation.navigate('UserNavigation', {
-          user: obj,
-        });
+    if (data) {
+      let obj = JSON.parse(data);
+      if (obj) {
+        if (obj.doctor) {
+          navigation.navigate('DocNavigation', {
+            user: obj,
+          });
+        } else {
+          navigation.navigate('UserNavigation', {
+            user: obj,
+          });
+        }
       }
     }
   };

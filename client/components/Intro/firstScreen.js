@@ -16,10 +16,13 @@ function FirstScreen({route, navigation}) {
 
   let user;
 
-  useEffect(async () => {
-    let data = await AsyncStorage.getItem('User');
-    user = JSON.parse(data);
-    await AsyncStorage.removeItem('User');
+  useEffect(() => {
+    const getResult = async () => {
+      let data = await AsyncStorage.getItem('User');
+      user = JSON.parse(data);
+      await AsyncStorage.removeItem('User');
+    };
+    getResult();
   }, []);
 
   return (

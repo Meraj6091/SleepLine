@@ -20,7 +20,7 @@ import MyHeader from '../Navigation/myHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import DocHomeGraphs from '../Graphs/docHomeGraph';
 import {useSelector, useDispatch} from 'react-redux';
-import {saveData} from '../../Containers/State/action';
+import {saveData, saveSignUpId} from '../../Containers/State/action';
 import {getAllDocInfo} from './service';
 
 const Home = ({route, navigation}) => {
@@ -38,6 +38,11 @@ const Home = ({route, navigation}) => {
       const {data} = await getAllDocInfo({user: params.user});
       if (data) {
         dispatch(saveData({...data.docSignupData[0], ...data.docProfile}));
+        dispatch(
+          saveSignUpId({
+            id: data.docSignupData[0]._id,
+          }),
+        );
       }
     } catch (err) {
       console.log(err);

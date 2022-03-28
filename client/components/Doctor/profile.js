@@ -17,15 +17,25 @@ import {Input} from 'react-native-elements';
 //import {getAllUserInfo} from './service';
 import {formatDate} from '../Helpers/dateFormatter';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getAllUserInfo} from '../User/service';
+import {saveData, saveSignUpId} from '../../Containers/State/action';
+import {getAllDocInfo, updateProfile} from './service';
+import DateIncon from 'react-native-vector-icons/Fontisto';
+import DatePicker from 'react-native-date-picker';
 
 const Profile = ({route, navigation}) => {
   const {doctor, user} = route.params;
   const scrollRef = useRef();
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.userData);
+  const signUpState = useSelector((state) => state.signUpData);
   const [viewProfile, setViewProfile] = useState({});
   const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const state = useSelector((state) => state.userData);
+  const [validation, setValidation] = useState({});
+  const [open, setOpen] = useState(false);
+  const [isNotValidated, setIsNotValidated] = useState(true);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -38,11 +48,6 @@ const Profile = ({route, navigation}) => {
     });
     return unsubscribe;
   }, [navigation]);
-
-  useEffect(() => {
-    console.log(viewProfile);
-    console.log(state);
-  }, [state, viewProfile]);
 
   useEffect(() => {
     if (user && !isEdit) {
@@ -58,6 +63,7 @@ const Profile = ({route, navigation}) => {
       y: 0,
       animated: true,
     });
+    setViewProfile({});
   };
   const handleClose = (event) => {
     setIsEdit(false);
@@ -71,15 +77,78 @@ const Profile = ({route, navigation}) => {
       ...state,
     });
   };
+  const handleChange = (event, id) => {
+    setViewProfile({
+      ...viewProfile,
+      [id]: event,
+    });
+  };
 
+  const handleDispatch = async () => {
+    try {
+      const {data} = await getAllDocInfo({user: state.firstName});
+      debugger;
+      if (data) {
+        dispatch(saveData({...data.docSignupData[0], ...data.docProfile}));
+        dispatch(
+          saveSignUpId({
+            id: data.docSignupData[0]._id,
+          }),
+        );
+      }
+    } catch (err) {
+      debugger;
+      console.log('ff');
+      console.log(err);
+    }
+  };
+
+  const formValidation = () => {
+    if (viewProfile.password !== viewProfile.confirmPassword) {
+      setValidation({
+        validateMsgConfirmPassword: 'PASSWORD DO NOT MATCH',
+      });
+    } else {
+      setIsNotValidated(false);
+      setValidation({});
+    }
+  };
   const handleSubmit = async (event) => {
     try {
-      setIsEdit(false);
-      setVisible(false);
-      scrollRef.current?.scrollTo({
-        y: 0,
-        animated: true,
-      });
+      let postData = viewProfile;
+      postData.id = state._id;
+      postData.signUpId = signUpState.id;
+      if (
+        (viewProfile.password && viewProfile.confirmPassword) ||
+        (viewProfile.password && !viewProfile.confirmPassword)
+      ) {
+        formValidation();
+        if (!isNotValidated) {
+          const {data} = await updateProfile(postData);
+          if (data) {
+            setVisible(false);
+            scrollRef.current?.scrollTo({
+              y: 0,
+              animated: true,
+            });
+
+            await handleDispatch();
+            setIsEdit(false);
+          }
+        }
+      } else {
+        const {data} = await updateProfile(postData);
+        if (data) {
+          setVisible(false);
+          scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+          });
+
+          await handleDispatch();
+          setIsEdit(false);
+        }
+      }
     } catch (err) {
       console.log(err);
     }
@@ -150,32 +219,75 @@ const Profile = ({route, navigation}) => {
           )}
           <Input
             label="Date of Birth"
-            disabled={!isEdit}
+            disabled
             value={formatDate(viewProfile.dateOfBirth)}
+            leftIcon={
+              <DateIncon
+                name="date"
+                size={22}
+                color={'grey'}
+                onPress={() => isEdit && setOpen(true)}
+              />
+            }
+          />
+          <DatePicker
+            modal
+            open={open}
+            date={new Date()}
+            mode="date"
+            onConfirm={(date) => {
+              setOpen(false);
+              handleChange(date, 'dateOfBirth');
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
           />
           <Input
             label="Institution"
             disabled={!isEdit}
             value={viewProfile.institution}
+            onChangeText={(event) => handleChange(event, 'institution')}
           />
           <Input
             label="SLMC No"
             disabled={!isEdit}
             value={viewProfile.slmcNo}
+            onChangeText={(event) => handleChange(event, 'slmcNo')}
           />
-          <Input label="Clinic" disabled={!isEdit} value={viewProfile.clinic} />
+          <Input
+            label="Clinic"
+            disabled={!isEdit}
+            value={viewProfile.clinic}
+            onChangeText={(event) => handleChange(event, 'clinic')}
+          />
           <Input
             label="Contact No"
             disabled={!isEdit}
             value={viewProfile.contactNo}
+            onChangeText={(event) => handleChange(event, 'contactNo')}
           />
-          <Input label="NIC" disabled={!isEdit} value={viewProfile.nic} />
+          <Input
+            label="NIC"
+            disabled={!isEdit}
+            value={viewProfile.nic}
+            onChangeText={(event) => handleChange(event, 'nic')}
+          />
           {isEdit && (
             <>
-              <Input label="Password" value={viewProfile.password} />
+              <Input
+                label="Password"
+                value={viewProfile.password}
+                onChangeText={(event) => handleChange(event, 'password')}
+              />
               <Input
                 label="Confirm Password"
                 value={viewProfile.confirmPassword}
+                onChangeText={(event) => handleChange(event, 'confirmPassword')}
+                errorMessage={
+                  validation.validateMsgConfirmPassword &&
+                  validation.validateMsgConfirmPassword
+                }
               />
             </>
           )}
