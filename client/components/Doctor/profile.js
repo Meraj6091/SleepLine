@@ -87,7 +87,6 @@ const Profile = ({route, navigation}) => {
   const handleDispatch = async () => {
     try {
       const {data} = await getAllDocInfo({user: state.firstName});
-      debugger;
       if (data) {
         dispatch(saveData({...data.docSignupData[0], ...data.docProfile}));
         dispatch(
@@ -97,7 +96,6 @@ const Profile = ({route, navigation}) => {
         );
       }
     } catch (err) {
-      debugger;
       console.log('ff');
       console.log(err);
     }
