@@ -380,5 +380,14 @@ router.post("/updateDocProfile", async (req, res) => {
 		return res.json(err);
 	}
 });
-
+//test
+router.post("/img-upload", async (req, res) => {
+	try {
+		console.log(req.body);
+		return res.json();
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
 module.exports = router;
