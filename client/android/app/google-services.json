@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "884937646947-565ddq0m1fe2ea76757dj21ng66liru9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sleepline2",
+            "certificate_hash": "55b34acc79a7f5e720c14cb05f9ca761f3855ff9"
+          }
+        },
+        {
           "client_id": "884937646947-8dumjre3u6rraqeto5430h2fio735voq.apps.googleusercontent.com",
           "client_type": 3
         }

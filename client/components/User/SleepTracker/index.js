@@ -15,7 +15,7 @@ import {useSelector} from 'react-redux';
 import {getAllSleepInfo, saveSleepTime} from './service';
 import {Snackbar} from 'react-native-paper';
 import AvgSleptTime from '../../Graphs/avgSleptTime';
-import {data} from './constant';
+import {data, getMonthName} from './constant';
 
 const SleepTracker = () => {
   const Userstate = useSelector((state) => state.userData);
@@ -73,13 +73,14 @@ const SleepTracker = () => {
       getEachTotalSleepTime(sleepRecords);
     }
   }, [sleepRecords]);
+
   const getEachTotalSleepTime = (arr, graph) => {
     if (arr && !graph) {
       let result = [];
 
       arr.forEach(function (a) {
         if (!this[a.date]) {
-          this[a.date] = {date: a.date, sleepTime: 0};
+          this[a.date] = {date: a.date, month: a.month, sleepTime: 0};
           result.push(this[a.date]);
         }
 
@@ -151,6 +152,7 @@ const SleepTracker = () => {
       let postData = save;
       postData.userId = Userstate._id;
       postData.date = todayDate.getDate();
+      postData.month = todayDate.getMonth();
       const {data} = await saveSleepTime(postData);
       if (data) {
         setVisible(!visible);
@@ -193,7 +195,7 @@ const SleepTracker = () => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              paddingTop: 40,
+              paddingTop: item.date === 'Track Now' ? 10 : 25,
             }}>
             <Text
               style={{
@@ -202,6 +204,11 @@ const SleepTracker = () => {
                 fontStyle: 'italic',
                 fontWeight: item.date === 'Track Now' ? 'bold' : '',
               }}>
+              {item.date !== 'Track Now' &&
+                item.month &&
+                getMonthName(item.month)}
+              {'\n'}
+
               {item.date}
             </Text>
           </View>
