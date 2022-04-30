@@ -25,6 +25,12 @@ const Login = ({route, navigation}) => {
   const [isLogged, setIsLogged] = useState(false);
   const [loggingData, setloggingData] = useState({});
 
+  useEffect(() => {
+    GoogleSignin.configure({
+      client_type:
+        '884937646947-8dumjre3u6rraqeto5430h2fio735voq.apps.googleusercontent.com',
+    });
+  }, []);
   const handleChange = (event, id) => {
     setloggingData({
       ...loggingData,
@@ -87,6 +93,7 @@ const Login = ({route, navigation}) => {
     }
     setIsLogged(false);
   };
+  async function onGoogleButtonPress() {}
   return (
     <ScrollView style={{backgroundColor: 'white'}} ref={scrollRef}>
       <View style={styles.container}>
@@ -152,13 +159,13 @@ const Login = ({route, navigation}) => {
             }
           />
         </View>
-        <View style={{width: '90%'}}>
+        {/* <View style={{width: '90%'}}>
           <Text
             style={([styles.textBody], {alignSelf: 'flex-end'})}
             onPress={() => navigation.navigate('CreateAccountAs')}>
             Forgot Password?
           </Text>
-        </View>
+        </View> */}
         <TouchableOpacity
           style={[styles.submit, {backgroundColor: '#0251ce'}]}
           onPress={handleSubmit}>
@@ -172,8 +179,21 @@ const Login = ({route, navigation}) => {
         </TouchableOpacity>
         <Text style={styles.textBody}>Or connect using </Text>
         <View style={{flexDirection: 'row'}}>
-          <Account color="#3b5c8f" icon="facebook" title="Facebook" />
-          <Account color="#ec482f" icon="google" title="Google" />
+          <TouchableOpacity
+            style={[styles.containerSocial, {backgroundColor: '#3b5c8f'}]}>
+            <Icon style={styles.accIcon} name="facebook" />
+            <Text style={styles.textTitleSocial}>Facebook</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.containerSocial, {backgroundColor: '#ec482f'}]}
+            onPress={() =>
+              onGoogleButtonPress().then(() =>
+                console.log('Signed in with Google!'),
+              )
+            }>
+            <Icon style={styles.accIcon} name="google" />
+            <Text style={styles.textTitleSocial}>Google</Text>
+          </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Text style={styles.textBody}>Don't Have an account &nbsp;</Text>
@@ -242,6 +262,27 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     marginVertical: 10,
+  },
+  containerSocial: {
+    flexDirection: 'row',
+    width: 135,
+    height: 45,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    borderRadius: 5,
+  },
+  accIcon: {
+    color: 'white',
+    fontSize: 20,
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  textTitleSocial: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginVertical: 10,
+    marginHorizontal: 5,
   },
 });
 
