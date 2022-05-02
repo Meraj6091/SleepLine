@@ -4,7 +4,7 @@ import json
 from flask import Flask, request, request, jsonify
 from flask_cors import CORS
 from rule_base import ActivityPlan
-from rule_base import Employee
+from rule_base import Therepies
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -19,7 +19,7 @@ def severity_info():
 
     engine = ActivityPlan()
     engine.reset()
-    engine.declare(Employee(age=age,
+    engine.declare(Therepies(age=age,
                             gender=gender,
                             level=level))
     engine.run()

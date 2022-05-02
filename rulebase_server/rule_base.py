@@ -1,4 +1,5 @@
 from random import choice
+from turtle import st
 from experta import *
 
 
@@ -13,7 +14,7 @@ class ActivityPlan(KnowledgeEngine):
     # CATEGORIZATION
     @Rule(Therepies(age=MATCH.age, gender=MATCH.gender, level=MATCH.level))
     def age_cat(self, age, gender, level):
-        if 8.5 <= age <= 10.5 and gender > 16 and level > 17.0:
+        if age == 10 and gender == 'male' and level == '4':
             self.declare(Therepies(therepi_group=choice(["DG01"])))
         elif 8.5 <= age <= 10.5 and gender < 12 and level < 2.7:
             self.declare(Therepies(therepi_group=choice(["DG02"])))
@@ -71,7 +72,7 @@ class ActivityPlan(KnowledgeEngine):
     # RULESET 01
     @Rule(Therepies(therepi_group="DG01"))
     def plan1(self):
-        self.suggestions = "<h3>Calcium levels are normal.</h3> <p>Here are some healthy food suggestions which are eggs, sweet potatoes, salmon, and yogurt.</p><h3>Iron levels are high.</h3> <p>Please reduce intake of alcohol, coffee and avoid beef liver.</p><h3>Folate levels are high.</h3> <p>Please reduce intake of alcohol, overcooked vegetables</p>"
+        self.suggestions = "<h3>hq.</h3> <p>Here are some healthy food suggestions which are eggs, sweet potatoes, salmon, and yogurt.</p><h3>Iron levels are high.</h3> <p>Please reduce intake of alcohol, coffee and avoid beef liver.</p><h3>Folate levels are high.</h3> <p>Please reduce intake of alcohol, overcooked vegetables</p>"
 
     # RULESET 02
     @Rule(Therepies(therepi_group="DG02"))
