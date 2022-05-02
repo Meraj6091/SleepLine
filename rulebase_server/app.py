@@ -10,18 +10,18 @@ app = Flask(__name__)
 cors = CORS(app)
 
 
-@app.route('/diet', methods=['POST'])
+@app.route('/therepies', methods=['POST'])
 def severity_info():
-    calcium = request.json['calcium']
-    iron = request.json['iron']
-    folate = request.json['folate']
-    print(calcium, iron, folate)
+    age = request.json['age']
+    gender = request.json['gender']
+    level = request.json['level']
+    print(age, gender, level)
 
     engine = ActivityPlan()
     engine.reset()
-    engine.declare(Employee(calcium=calcium,
-                            iron=iron,
-                            folate=folate))
+    engine.declare(Employee(age=age,
+                            gender=gender,
+                            level=level))
     engine.run()
 
     response = jsonify({"suggestions": engine.suggestions})
