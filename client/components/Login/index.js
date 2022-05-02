@@ -16,6 +16,8 @@ import {logedIn} from './service';
 import {Snackbar, ActivityIndicator, Colors} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {saveData, getData} from '../../Containers/State/action';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 
 const Login = ({route, navigation}) => {
   const {doctor, user} = route.params;
@@ -27,8 +29,11 @@ const Login = ({route, navigation}) => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      client_type:
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId:
         '884937646947-8dumjre3u6rraqeto5430h2fio735voq.apps.googleusercontent.com',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
     });
   }, []);
   const handleChange = (event, id) => {
@@ -93,7 +98,21 @@ const Login = ({route, navigation}) => {
     }
     setIsLogged(false);
   };
-  async function onGoogleButtonPress() {}
+  async function onGoogleButtonPress() {
+    try {
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      await auth().signInWithCredential(googleCredential);
+      console.log({googleCredential});
+    } catch (err) {
+      console.log({err});
+    }
+  }
   return (
     <ScrollView style={{backgroundColor: 'white'}} ref={scrollRef}>
       <View style={styles.container}>
