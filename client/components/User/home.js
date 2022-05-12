@@ -90,6 +90,14 @@ const Home = ({route, navigation}) => {
   const handleTrack = (data) => {
     if (data === 'Track') {
       navigation.navigate('SleepTracker');
+    } else if (data === 'Insomnia Level 3') {
+      navigation.navigate('Prediction');
+    } else if (data === 'Channel Doctors') {
+      navigation.navigate('Therapists');
+    } else if (data === 'Medical Records') {
+      navigation.navigate('Medical Records');
+    } else if (data === 'Message') {
+      navigation.navigate('Therapists');
     }
   };
   return (

@@ -80,7 +80,17 @@ const Home = ({route, navigation}) => {
     barPercentage: 0.5,
     useShadowColorFromDataset: false, // optional
   };
-
+  const handleTrack = (data) => {
+    if (data === 'Patients Profile') {
+      navigation.navigate('Patients ');
+    } else if (data === 'Channel Doctors') {
+      navigation.navigate('Therapists');
+    } else if (data === 'Medical Records') {
+      navigation.navigate('Medical Records');
+    } else if (data === 'Message') {
+      navigation.navigate('Patients ');
+    }
+  };
   return (
     <View style={Styles.container}>
       <MyHeader
@@ -121,29 +131,35 @@ const Home = ({route, navigation}) => {
               }}
               renderItem={({item, index}) => {
                 return (
-                  <View style={styles.cardBody}>
-                    <Image
-                      source={item.img}
-                      style={{
-                        width: AVATAR_SIZE,
-                        height: AVATAR_SIZE,
-                        borderRadius: AVATAR_SIZE,
-                        marginRight: SPACING / 2,
-                      }}
-                    />
-                    <View>
-                      <Text style={{fontSize: 20, fontWeight: '700'}}>
-                        {item.name}
-                      </Text>
-                      <Text style={{fontSize: 18, opacity: 0.7}}>
-                        {item.msg}
-                      </Text>
-                      <Text
-                        style={{fontSize: 12, opacity: 0.8, color: '#0099cc'}}>
-                        {item.vehical}
-                      </Text>
+                  <TouchableOpacity onPress={() => handleTrack(item.name)}>
+                    <View style={styles.cardBody}>
+                      <Image
+                        source={item.img}
+                        style={{
+                          width: AVATAR_SIZE,
+                          height: AVATAR_SIZE,
+                          borderRadius: AVATAR_SIZE,
+                          marginRight: SPACING / 2,
+                        }}
+                      />
+                      <View>
+                        <Text style={{fontSize: 20, fontWeight: '700'}}>
+                          {item.name}
+                        </Text>
+                        <Text style={{fontSize: 18, opacity: 0.7}}>
+                          {item.msg}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            opacity: 0.8,
+                            color: '#0099cc',
+                          }}>
+                          {item.vehical}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               }}
             />
