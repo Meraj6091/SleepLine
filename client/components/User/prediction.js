@@ -347,11 +347,12 @@ const Prediction = ({route, navigation}) => {
               <Picker.Item label="40 and above" value="40 and above" />
             </Picker>
             <View style={{marginLeft: 10}}>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 1. Do you have Difficulty falling asleep?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -359,7 +360,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('acute1', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -368,11 +369,12 @@ const Prediction = ({route, navigation}) => {
                   onPress={() => handleChange('acute1', 'second')}
                 />
               </View>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 2. Do You have Difficulty in staying asleep?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -380,7 +382,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('acute2', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -389,11 +391,12 @@ const Prediction = ({route, navigation}) => {
                   onPress={() => handleChange('acute2', 'second')}
                 />
               </View>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 3. Do you face waking up throughout the night?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -401,7 +404,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('acute3', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -410,11 +413,12 @@ const Prediction = ({route, navigation}) => {
                   onPress={() => handleChange('acute3', 'second')}
                 />
               </View>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 4. Do you wake up way too early?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -422,7 +426,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('acute4', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -432,11 +436,12 @@ const Prediction = ({route, navigation}) => {
                 />
               </View>
 
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 5. Do you have Fatigue or daytime sleepiness?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -446,7 +451,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('transient1', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -458,11 +463,12 @@ const Prediction = ({route, navigation}) => {
                 />
               </View>
 
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 6. Do you feel lack of motivation or energy?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -472,7 +478,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('transient2', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -484,11 +490,12 @@ const Prediction = ({route, navigation}) => {
                 />
               </View>
 
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 7. Do you face Poor attention or concentration?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -496,7 +503,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('chronic1', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -507,7 +514,8 @@ const Prediction = ({route, navigation}) => {
                   onPress={() => handleChange('chronic1', 'second')}
                 />
               </View>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 8. Do you have regular Tension, headache or anxiety attacks?
               </Text>
               <View
@@ -516,7 +524,7 @@ const Prediction = ({route, navigation}) => {
                   justifyContent: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -524,7 +532,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('chronic2', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -535,7 +543,8 @@ const Prediction = ({route, navigation}) => {
                   onPress={() => handleChange('chronic2', 'second')}
                 />
               </View>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 9. Do you have high temper or increased aggressiveness?
               </Text>
               <View
@@ -544,7 +553,7 @@ const Prediction = ({route, navigation}) => {
                   justifyContent: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -552,7 +561,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('chronic3', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
@@ -563,7 +572,8 @@ const Prediction = ({route, navigation}) => {
                   onPress={() => handleChange('chronic3', 'second')}
                 />
               </View>
-              <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+              <Text
+                style={{fontSize: 18, fontStyle: 'italic', fontWeight: 'bold'}}>
                 10. Do you face problems with remembering things?
               </Text>
               <View
@@ -572,7 +582,7 @@ const Prediction = ({route, navigation}) => {
                   justifyContent: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{marginTop: 8}}>YES</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>YES</Text>
                 <RadioButton
                   value="true"
                   status={
@@ -580,7 +590,7 @@ const Prediction = ({route, navigation}) => {
                   }
                   onPress={() => handleChange('chronic4', 'true')}
                 />
-                <Text style={{marginTop: 8}}>NO</Text>
+                <Text style={{marginTop: 8, color: 'rgb(128, 0, 0)'}}>NO</Text>
                 <RadioButton
                   value="second"
                   status={
