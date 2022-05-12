@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {apiEndPoint} from '../../ApiEndPoints';
+import {apiEndPoint, flask_Api} from '../../ApiEndPoints';
 
 export const createUserProfile = (data) => {
   return axios.post(`${apiEndPoint()}/app/userCreateProfile`, data);
@@ -23,4 +23,8 @@ export const getUserMedicalRecord = (data) => {
 
 export const updateProfile = (data) => {
   return axios.post(`${apiEndPoint()}/app/updateProfile`, data);
+};
+
+export const getPrediction = (data) => {
+  return axios.post(`${flask_Api()}/therepies`, data);
 };

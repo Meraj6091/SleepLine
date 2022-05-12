@@ -25,6 +25,7 @@ def severity_info():
     engine.run()
 
     response = jsonify({"suggestions": engine.suggestions})
+    print(response)
     return response
 
 
