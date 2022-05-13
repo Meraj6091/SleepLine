@@ -23,11 +23,18 @@ import {getGreetings} from '../Helpers/greetings';
 
 const Home = ({route, navigation}) => {
   const {params} = route;
-
   const dispatch = useDispatch();
-
   const SPACING = 20;
   const AVATAR_SIZE = 70;
+
+  const [level, setLevel] = useState();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleDispatch();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     handleDispatch();
@@ -35,7 +42,7 @@ const Home = ({route, navigation}) => {
 
   const data = [
     {
-      name: 'Insomnia Level 3',
+      name: level || 'Insomnia Level',
       vehical: 'Now',
       msg: 'Predict Your insomnia Level',
       img: require('../../assets/insomnia.jpg'),
@@ -71,6 +78,7 @@ const Home = ({route, navigation}) => {
       const {data} = await getAllUserInfo({user: params.user});
 
       if (data) {
+        setLevel(data.userProfile[0].insomniaLevel);
         dispatch(
           saveData({
             ...data.email[0],

@@ -19,6 +19,9 @@ const UsercreateProfileSchema = new mongoose.Schema({
 	bloodType: {
 		type: String,
 	},
+	insomniaLevel: {
+		type: String,
+	},
 	createdDate: {
 		type: Date,
 		default: Date.now,

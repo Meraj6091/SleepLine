@@ -11,6 +11,7 @@ import {
   FlatList,
   StatusBar,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 
 import Styles from '../Navigation/styles';
@@ -20,13 +21,15 @@ import MyHeader from '../Navigation/myHeader';
 import {getAllDocInfo, isChanneled} from './service';
 import DocDetails from './DocModal';
 import {useSelector} from 'react-redux';
+import {round} from 'react-native-reanimated';
 
 const Therapiests = ({route, navigation}) => {
   const {params} = route;
   const state = useSelector((state) => state.userData);
+  const signUpState = useSelector((state) => state.signUpData);
   const [visible, setVisible] = useState(false);
   const [channeled, setChanneled] = useState([]);
-  const [IsChanneled, setIsChanneled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [profileInfo, setProfileInfo] = useState([]);
   const [docData, setDocData] = useState({});
   const SPACING = 20;
@@ -35,7 +38,9 @@ const Therapiests = ({route, navigation}) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setVisible(false);
+
       // setIsChanneled(!IsChanneled);
+      // setChanneled([]);
       checkIsChanneled();
     });
     return unsubscribe;
@@ -48,11 +53,15 @@ const Therapiests = ({route, navigation}) => {
   const getAllDocProfiles = async () => {
     const {data} = await getAllDocInfo();
     setProfileInfo(data);
+    //checkIsChanneled();
   };
 
   const checkIsChanneled = async () => {
+    setLoading(true);
     const {data} = await isChanneled({userId: state._id});
-    setChanneled(data.map((data) => data._id));
+    await setChanneled(data.map((data) => data._id));
+    // getAllDocProfiles();
+    setLoading(false);
   };
 
   const showDoctorDetails = (data) => {
@@ -88,53 +97,62 @@ const Therapiests = ({route, navigation}) => {
           )}
 
           <View>
-            <FlatList
-              data={profileInfo}
-              keyExtractor={(item) => item.key}
-              contentContainerStyle={{
-                padding: SPACING,
-              }}
-              renderItem={({item, index}) => {
-                return (
-                  <TouchableOpacity onPress={() => showDoctorDetails(item)}>
-                    <View style={styles.cardBody}>
-                      <Image
-                        source={require('../../assets/doc.png')}
-                        style={{
-                          width: AVATAR_SIZE,
-                          height: AVATAR_SIZE,
-                          borderRadius: AVATAR_SIZE,
-                          marginRight: SPACING / 2,
-                        }}
-                      />
-                      <View>
-                        {/* <Text style={{fontSize: 20, fontWeight: '700'}}>
+            {loading && (
+              <ActivityIndicator
+                size="large"
+                color="#2759ff"
+                animating={loading}
+              />
+            )}
+            {profileInfo.length > 0 && (
+              <FlatList
+                data={profileInfo}
+                keyExtractor={(item) => item.key}
+                contentContainerStyle={{
+                  padding: SPACING,
+                }}
+                renderItem={({item, index}) => {
+                  return (
+                    <TouchableOpacity onPress={() => showDoctorDetails(item)}>
+                      <View style={styles.cardBody}>
+                        <Image
+                          source={require('../../assets/doc.png')}
+                          style={{
+                            width: AVATAR_SIZE,
+                            height: AVATAR_SIZE,
+                            borderRadius: AVATAR_SIZE,
+                            marginRight: SPACING / 2,
+                          }}
+                        />
+                        <View>
+                          {/* <Text style={{fontSize: 20, fontWeight: '700'}}>
                         {item.name}
                       </Text> */}
-                        <Text
-                          style={{
-                            fontSize: 18,
-                            opacity: 0.7,
-                            paddingTop: 15,
-                          }}>
-                          DR. {item.firstName} {item.lastName}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 15,
-                            opacity: 1.8,
-                            color: '#0099cc',
-                          }}>
-                          {channeled.some((data) => data === item._id)
-                            ? 'Chat Now'
-                            : 'Channel Now'}
-                        </Text>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              opacity: 0.7,
+                              paddingTop: 15,
+                            }}>
+                            DR. {item.firstName} {item.lastName}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              opacity: 1.8,
+                              color: '#0099cc',
+                            }}>
+                            {channeled.some((data) => data === item._id)
+                              ? 'Chat Now'
+                              : 'Channel Now'}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            )}
           </View>
           <View>
             <Text>{'\n'}</Text>

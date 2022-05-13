@@ -157,9 +157,9 @@ const Patients = ({route, navigation}) => {
             </View>
           ) : (
             <View style={styles.container2}>
-              <Text style={styles.textTitleChoose}>
+              {/* <Text style={styles.textTitleChoose}>
                 You Dont Have Any Patients At the Momoent
-              </Text>
+              </Text> */}
             </View>
           )}
 

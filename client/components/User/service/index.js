@@ -25,6 +25,10 @@ export const updateProfile = (data) => {
   return axios.post(`${apiEndPoint()}/app/updateProfile`, data);
 };
 
+export const saveInsomniaLevelInToProfile = (data) => {
+  return axios.post(`${apiEndPoint()}/app/saveInsomniaLevelInToProfile`, data);
+};
+
 export const getPrediction = (data) => {
   return axios.post(`${flask_Api()}/therepies`, data);
 };

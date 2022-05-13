@@ -11,22 +11,20 @@ const MedicalRecordsSchema = new mongoose.Schema({
 	lastName: {
 		type: String,
 	},
-	dateOfBirth: {
-		type: String,
-	},
 	weight: {
 		type: String,
 	},
 	height: {
 		type: String,
 	},
-	bloodType: {
-		type: String,
-	},
+
 	remarks: {
 		type: String,
 	},
 	docName: {
+		type: String,
+	},
+	insomniaLevel: {
 		type: String,
 	},
 

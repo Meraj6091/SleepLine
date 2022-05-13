@@ -19,13 +19,15 @@ import {
   Portal,
   Provider,
 } from 'react-native-paper';
-import {getPrediction} from './service';
+import {getPrediction, saveInsomniaLevelInToProfile} from './service';
+import {useSelector} from 'react-redux';
 const Prediction = ({route, navigation}) => {
   const [isPressed, setIsPressed] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
   const [level, setLevel] = useState(null);
   const [visible, setVisible] = React.useState(false);
   const [validate, setValidate] = React.useState({});
+  const state = useSelector((state) => state.userData);
   //const showDialog = () => setVisible(true);
 
   //const hideDialog = () => setVisible(false);
@@ -40,8 +42,10 @@ const Prediction = ({route, navigation}) => {
   }, [navigation]);
 
   useEffect(() => {
-    console.log(validate);
-  }, [validate]);
+    if (level !== null) {
+      saveInsomniaLevel(level);
+    }
+  }, [level]);
 
   const data = [
     {
@@ -56,6 +60,16 @@ const Prediction = ({route, navigation}) => {
       ...selectedValue,
       [id]: value,
     });
+  };
+  const saveInsomniaLevel = async (data) => {
+    try {
+      let postData = {};
+      postData.level = data;
+      postData.id = state._id;
+      await saveInsomniaLevelInToProfile(postData);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleSubmit = async () => {
     if (
@@ -165,7 +179,6 @@ const Prediction = ({route, navigation}) => {
         } else {
           setLevel('None');
         }
-
         setVisible(true);
       }
     }

@@ -87,7 +87,7 @@ const UserMedicalRecord = ({
               />
             </View>
 
-            <View style={{marginTop: 5}}>
+            {/* <View style={{marginTop: 5}}>
               <TextInput
                 label="Date Of Birth"
                 value={selectedUserRecod.dob}
@@ -97,7 +97,7 @@ const UserMedicalRecord = ({
                 }}
                 disabled
               />
-            </View>
+            </View> */}
             <View style={{marginTop: 5}}>
               <TextInput
                 label="Weight"
@@ -121,7 +121,7 @@ const UserMedicalRecord = ({
                 />
               </View>
             </View>
-            <View style={{marginTop: 5}}>
+            {/* <View style={{marginTop: 5}}>
               <TextInput
                 label="Contact No"
                 value={selectedUserRecod.contactNo}
@@ -131,7 +131,7 @@ const UserMedicalRecord = ({
                 }}
                 disabled
               />
-            </View>
+            </View> */}
             <View style={{marginTop: 5}}>
               <TextInput
                 label="Remarks"

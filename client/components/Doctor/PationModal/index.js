@@ -70,7 +70,11 @@ const PationDetail = ({visible, setVisible, userData, params}) => {
             />
             <Input label="Weight" value={data?.weight} disabled />
             <Input label="Height" value={data?.height} disabled />
-            <Input label="Contact No" value={data?.contactNo} disabled />
+            <Input
+              label="Insomnia Level"
+              value={data?.insomniaLevel}
+              disabled
+            />
             <Input label="Blood Type" value={data?.bloodType} disabled />
           </View>
 

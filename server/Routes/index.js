@@ -381,4 +381,18 @@ router.post("/updateDocProfile", async (req, res) => {
 	}
 });
 
+router.post("/saveInsomniaLevelInToProfile", async (req, res) => {
+	try {
+		console.log(req.body);
+		const updateProfile = await userProfile
+			.updateOne({ insomniaLevel: req.body.level })
+			.where({ _id: req.body.id });
+		console.log(updateProfile);
+		return res.json(true);
+	} catch (err) {
+		console.log(err);
+		return res.json(err);
+	}
+});
+
 module.exports = router;

@@ -4,6 +4,7 @@ import {LineChart} from 'react-native-chart-kit';
 import Close from 'react-native-vector-icons/Fontisto';
 const AvgSleptTime = ({close = false, setShowGraph, data}) => {
   const [filterdData, setFilterdData] = useState([]);
+  const [show, setShow] = useState(false);
   useEffect(() => {
     setFilterdData(
       ...filterdData,
@@ -17,10 +18,12 @@ const AvgSleptTime = ({close = false, setShowGraph, data}) => {
   }, [data]);
 
   useEffect(() => {
-    if (filterdData) {
-      console.log(filterdData);
+    if (filterdData.find((data) => data.date !== '0')) {
+      filterdData.unshift({date: '0', sleepTime: '0'}); //push to first index
+      setShow(true);
     }
   }, [filterdData]);
+
   return (
     <View
       style={{
@@ -51,12 +54,14 @@ const AvgSleptTime = ({close = false, setShowGraph, data}) => {
           </View>
         )}
       </View>
-      {filterdData.length > 0 && (
+      {filterdData.length > 0 && show && (
         <LineChart
           data={{
+            //
             labels: filterdData.map((data) => data.date),
             datasets: [
               {
+                //
                 data: filterdData.map((data) => data.sleepTime),
               },
             ],

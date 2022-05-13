@@ -156,7 +156,7 @@ const AddRecords = ({
               />
             </View>
 
-            <View style={{marginTop: 5}}>
+            {/* <View style={{marginTop: 5}}>
               <TextInput
                 label="Date Of Birth"
                 value={onEdit ? selectedUserRecod.dob : medicalRecord?.dob}
@@ -167,7 +167,7 @@ const AddRecords = ({
                 onChangeText={(event) => handleChange(event, 'transparent')}
                 disabled={onEdit}
               />
-            </View>
+            </View> */}
             <View style={{marginTop: 5}}>
               <TextInput
                 label="Weight"
@@ -178,7 +178,7 @@ const AddRecords = ({
                 theme={{
                   colors: {primary: '#0073CF', underlineColor: 'transparent'},
                 }}
-                onChangeText={(event) => handleChange(event, 'transparent')}
+                onChangeText={(event) => handleChange(event, 'weight')}
                 disabled={onEdit}
               />
 
@@ -192,12 +192,12 @@ const AddRecords = ({
                   theme={{
                     colors: {primary: '#0073CF', underlineColor: 'transparent'},
                   }}
-                  onChangeText={(event) => handleChange(event, 'transparent')}
+                  onChangeText={(event) => handleChange(event, 'height')}
                   disabled={onEdit}
                 />
               </View>
             </View>
-            <View style={{marginTop: 5}}>
+            {/* <View style={{marginTop: 5}}>
               <TextInput
                 label="Contact No"
                 value={
@@ -212,7 +212,7 @@ const AddRecords = ({
                 onChangeText={(event) => handleChange(event, 'transparent')}
                 disabled={onEdit}
               />
-            </View>
+            </View> */}
             <View style={{marginTop: 5}}>
               <TextInput
                 label="Remarks"
