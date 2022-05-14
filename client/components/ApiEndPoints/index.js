@@ -4,6 +4,6 @@ export const apiEndPoint = () => {
 };
 
 export const flask_Api = () => {
-  return 'https://seepline-rulebase-server.herokuapp.com';
+  return 'https://rulebase-server-sleepline.herokuapp.com';
   //return 'http://localhost:5000';
 };

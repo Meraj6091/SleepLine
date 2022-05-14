@@ -1,5 +1,4 @@
 from random import choice
-from turtle import st
 from experta import *
 
 
