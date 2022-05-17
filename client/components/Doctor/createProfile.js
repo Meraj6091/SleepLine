@@ -46,8 +46,12 @@ const CreateProfile = ({route, navigation}) => {
     });
     if (id === 'nic') {
       let isnum = /^\d+$/.test(event);
+
       if (!isnum) {
         setIsEqual(true);
+        if (!isnum && (event.includes('v') || event.includes('V'))) {
+          setIsEqual(false);
+        }
       } else setIsEqual(false);
     }
   };
@@ -85,7 +89,7 @@ const CreateProfile = ({route, navigation}) => {
       setValidation({
         nic: 'ENTER YOUR NIC NO',
       });
-    } else if (createProfile.nic.length !== 12 || isEqual) {
+    } else if (createProfile.nic.length !== 10 || isEqual) {
       setValidation({
         nic: 'INVALID NIC',
       });

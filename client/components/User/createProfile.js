@@ -66,9 +66,17 @@ const CreateProfile = ({route, navigation}) => {
       setValidation({
         weight: 'ENTER YOUR WEIGHT',
       });
+    } else if (!createProfile.weight.includes('kg')) {
+      setValidation({
+        weight: 'INVALID',
+      });
     } else if (!createProfile.height) {
       setValidation({
         height: 'ENTER YOUR HETGHT',
+      });
+    } else if (!createProfile.height.includes('cm')) {
+      setValidation({
+        height: 'INVALID',
       });
     } else if (!createProfile.bloodType) {
       setValidation({

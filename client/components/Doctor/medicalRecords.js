@@ -37,7 +37,7 @@ const MedicalRecords = ({route, navigation}) => {
       }
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, refresh]);
 
   // useEffect(() => {
   //   if (state._id) {
