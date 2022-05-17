@@ -28,10 +28,6 @@ const Therepies = ({route, navigation}) => {
   const [visible, setVisible] = React.useState(false);
   const [validate, setValidate] = React.useState({});
 
-  useEffect(() => {
-    console.log(validate);
-  }, [validate]);
-
   const data = [
     {
       name: 'Check Insomnia Level ',
@@ -357,7 +353,7 @@ const Therepies = ({route, navigation}) => {
               </Text>
 
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                3. Walk 4000 steps after dinner.
+                2. Walk 4000 steps after dinner.
               </Text>
               <Text style={{fontSize: 17}}>
                 {'\n'}
@@ -395,7 +391,7 @@ const Therepies = ({route, navigation}) => {
               </Text>
 
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                3. Walk 3000 steps after dinner.
+                2. Walk 3000 steps after dinner.
               </Text>
               <Text style={{fontSize: 17}}>
                 {'\n'}
@@ -441,7 +437,7 @@ const Therepies = ({route, navigation}) => {
                 {'\n'}
               </Text>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                2. 4-7-8 breathing technique –
+                3. 4-7-8 breathing technique –
               </Text>
 
               <Text style={{fontSize: 17}}>
@@ -497,7 +493,7 @@ const Therepies = ({route, navigation}) => {
                 {'\n'}
               </Text>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                2. 4-7-8 breathing technique –
+                3. 4-7-8 breathing technique –
               </Text>
 
               <Text style={{fontSize: 17}}>
@@ -553,7 +549,7 @@ const Therepies = ({route, navigation}) => {
                 {'\n'}
               </Text>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                2. 4-7-8 breathing technique –
+                3. 4-7-8 breathing technique –
               </Text>
 
               <Text style={{fontSize: 17}}>
@@ -600,7 +596,7 @@ const Therepies = ({route, navigation}) => {
                 {'\n'}
               </Text>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                2. 4-7-8 breathing technique –
+                3. 4-7-8 breathing technique –
               </Text>
 
               <Text style={{fontSize: 17}}>

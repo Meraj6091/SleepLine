@@ -96,7 +96,6 @@ const Profile = ({route, navigation}) => {
         );
       }
     } catch (err) {
-      console.log('ff');
       console.log(err);
     }
   };

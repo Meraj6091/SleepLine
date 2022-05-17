@@ -32,26 +32,26 @@ const MedicalRecords = ({route, navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      if (initialData.docId) {
+      if (state._id) {
         getAllMedicalRecords();
       }
     });
     return unsubscribe;
   }, [navigation]);
 
-  useEffect(() => {
-    if (state._id) {
-      setInitialData({
-        docId: state._id,
-      });
-    }
-  }, [state, refresh]);
+  // useEffect(() => {
+  //   if (state._id) {
+  //     setInitialData({
+  //       docId: state._id,
+  //     });
+  //   }
+  // }, [state, refresh]);
 
-  useEffect(() => {
-    if (initialData.docId) {
-      getAllMedicalRecords();
-    }
-  }, [initialData, refresh]);
+  // useEffect(() => {
+  //   if (state._id) {
+  //     getAllMedicalRecords();
+  //   }
+  // }, [refresh]);
 
   const showMedicalRecordDetails = (data) => {
     setSelectedUserRecord({...data});
@@ -60,9 +60,9 @@ const MedicalRecords = ({route, navigation}) => {
   };
   const getAllMedicalRecords = async () => {
     try {
-      let postdata = initialData;
+      let postdata = {};
+      postdata.docId = state._id;
 
-      console.log(postdata);
       const {data} = await getAllDoctorMedicalRecords(postdata);
       if (data) {
         setUserMedialRecods(data);

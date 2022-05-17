@@ -34,10 +34,6 @@ const PaymentProcess = ({route, navigation}) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   const getAllUsers = () => {
     setUserData({
       ...state,

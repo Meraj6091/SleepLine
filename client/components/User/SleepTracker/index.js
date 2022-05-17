@@ -13,7 +13,14 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 import {useSelector} from 'react-redux';
 import {getAllSleepInfo, saveSleepTime} from './service';
-import {Snackbar} from 'react-native-paper';
+import {
+  Provider,
+  Snackbar,
+  Portal,
+  Dialog,
+  Paragraph,
+  Button,
+} from 'react-native-paper';
 import AvgSleptTime from '../../Graphs/avgSleptTime';
 import {data, getMonthName} from './constant';
 
@@ -38,6 +45,8 @@ const SleepTracker = () => {
   const [visible, setVisible] = useState(false);
   const [showGraph, setShowGraph] = useState(false);
   const [splitText, setSplitText] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
 
   useEffect(() => {
     if (Userstate) getAllUserSleepRecords();
@@ -73,6 +82,16 @@ const SleepTracker = () => {
       getEachTotalSleepTime(sleepRecords);
     }
   }, [sleepRecords]);
+
+  useEffect(() => {
+    if (filteredData.docs.length > 0) {
+      if (filteredData.docs.find((data) => data.sleepTime >= '00:01')) {
+        setAlert(false);
+      } else {
+        setAlert(true);
+      }
+    }
+  }, [filteredData]);
 
   const getEachTotalSleepTime = (arr, graph) => {
     if (arr && !graph) {
@@ -175,6 +194,13 @@ const SleepTracker = () => {
       setSplitText(item.sleepTime.split(':'));
 
       setShowTimer(false);
+    }
+  };
+  const showGraphOrAlert = () => {
+    if (alert) {
+      setAlertVisible(true);
+    } else {
+      setShowGraph(true);
     }
   };
 
@@ -291,7 +317,7 @@ const SleepTracker = () => {
             }}
             renderItem={({item, index}) => {
               return (
-                <TouchableOpacity onPress={() => setShowGraph(true)}>
+                <TouchableOpacity onPress={showGraphOrAlert}>
                   <View style={styles.cardBody}>
                     <Image
                       source={item.img}
@@ -324,23 +350,47 @@ const SleepTracker = () => {
             }}
           />
         </>
-      ) : (
-        <View>
-          <AvgSleptTime
-            close={true}
-            setShowGraph={setShowGraph}
-            data={filteredData.docs}
-          />
-          <View
-            style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
-            <Text style={{fontSize: 30, fontWeight: '800', color: '#8a9c8f'}}>
-              {splitText[0]} HOURS
-            </Text>
-            <Text style={{fontSize: 25, color: '#c0c0c0', fontWeight: '800'}}>
-              {splitText[1]} MINS
-            </Text>
+      ) : showGraph ? (
+        <>
+          <View>
+            <AvgSleptTime
+              close={true}
+              setShowGraph={setShowGraph}
+              data={filteredData.docs}
+            />
+            <View
+              style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
+              <Text style={{fontSize: 30, fontWeight: '800', color: '#8a9c8f'}}>
+                {splitText[0]} HOURS
+              </Text>
+              <Text style={{fontSize: 25, color: '#c0c0c0', fontWeight: '800'}}>
+                {splitText[1]} MINS
+              </Text>
+            </View>
           </View>
-        </View>
+        </>
+      ) : null}
+      {!showTimer && (
+        <Provider>
+          <View>
+            <Portal>
+              <Dialog
+                visible={alertVisible}
+                onDismiss={() => setAlertVisible(false)}>
+                <Dialog.Title>Sleep Tracker</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>
+                    You Need To Sleep at Least 1 Minute to see the Average
+                    <Text></Text>
+                  </Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={() => setAlertVisible(false)}>Close</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+          </View>
+        </Provider>
       )}
     </View>
   );

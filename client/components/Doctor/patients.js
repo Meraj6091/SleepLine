@@ -45,10 +45,6 @@ const Patients = ({route, navigation}) => {
     getAllChanneledUserProfiles();
   }, [state]);
 
-  useEffect(() => {
-    console.log(channeled);
-  }, [channeled]);
-
   // useEffect(() => {
   //   checkIsChanneled();
   // }, [state, channeled]);

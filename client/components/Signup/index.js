@@ -88,7 +88,7 @@ const SignUp = ({route, navigation}) => {
           }
         } else {
           const {data} = await createUserAccount(postdata);
-          console.log(data);
+
           if (data && data.newUser === false) {
             scrollRef.current?.scrollTo({
               y: 0,

@@ -8,6 +8,7 @@ import {
   Alert,
   FlatList,
   Picker,
+  ActivityIndicator,
 } from 'react-native';
 import MyHeader from '../Navigation/myHeader';
 import {
@@ -27,6 +28,7 @@ const Prediction = ({route, navigation}) => {
   const [level, setLevel] = useState(null);
   const [visible, setVisible] = React.useState(false);
   const [validate, setValidate] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
   const state = useSelector((state) => state.userData);
   //const showDialog = () => setVisible(true);
 
@@ -186,6 +188,7 @@ const Prediction = ({route, navigation}) => {
 
   const handleRuleBase = async () => {
     try {
+      setLoading(true);
       let postData = {};
       postData.age = selectedValue.age;
       postData.gender = selectedValue.gender;
@@ -193,13 +196,14 @@ const Prediction = ({route, navigation}) => {
 
       const {data} = await getPrediction(postData);
       if (data && data.suggestions) {
-        console.log(data);
+        setLoading(false);
         setVisible(false);
         navigation.navigate('Therepies', {
           rule: data.suggestions,
         });
       }
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
@@ -645,11 +649,13 @@ const Prediction = ({route, navigation}) => {
                       </Paragraph>
                     </Dialog.Content>
                     <Dialog.Actions>
-                      {level !== 'None' && (
+                      {level !== 'None' && loading === false ? (
                         <Button onPress={handleRuleBase}>
                           Predict Your Therepies
                         </Button>
-                      )}
+                      ) : level !== 'None' && loading ? (
+                        <ActivityIndicator size="small" color="#a132f0" />
+                      ) : null}
                     </Dialog.Actions>
                   </Dialog>
                 </Portal>
