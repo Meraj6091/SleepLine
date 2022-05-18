@@ -47,11 +47,11 @@ const MedicalRecords = ({route, navigation}) => {
   //   }
   // }, [state, refresh]);
 
-  // useEffect(() => {
-  //   if (state._id) {
-  //     getAllMedicalRecords();
-  //   }
-  // }, [refresh]);
+  useEffect(() => {
+    if (state._id) {
+      getAllMedicalRecords();
+    }
+  }, [refresh]);
 
   const showMedicalRecordDetails = (data) => {
     setSelectedUserRecord({...data});
