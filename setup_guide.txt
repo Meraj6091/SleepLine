@@ -1,0 +1,19 @@
+Prerequisite
+1)Node v14.17.0
+2)Python v3.9.5
+3)Java (JDK 1.8)
+4)Android Studio
+5)Vscode or any favourite Code editor 
+
+How to run the project
+1)to run the client (react-native) first install node_modules into the project using running the command "npm i" or "npm install" 
+after the installation run command "npx-react-native run-android" or "npm run android" to start the frontend. after running the command 
+it will open the application in an emulator or in your physical device. after applicaton started you need to expose the localhost backend ports
+inorder to connect your frontend into the backend(locally). run command "adb reverse tcp:4000 tcp:4000" to connect to backend server(Node js),
+run command "adb reverse tcp:5000 tcp:5000" to connect to python server(flask).
+
+2)to run backend(node js) first install the node_modules by running npm i or npm install. after that run command "yarn dev"
+to run the server.js in nodemon.
+
+3)to run flask-server(python) first install the dependency packergers in requirements.txt by running command "pip install -r requirements.txt".
+after the installation run command "python app.py" or go to app.py and click the run button on code editor.
